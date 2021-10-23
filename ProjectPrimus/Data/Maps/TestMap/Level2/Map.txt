@@ -1,0 +1,77 @@
+/*
+enum TileType
+{
+	blnk,	//blank: Tile "not existant", no texture needed, automatically blocked
+	strd,	//standard: with texture, can be blocked, no effects on character
+	spFu	//special function: with texture, can be blocked, effect defined in parameter string
+};
+*/
+
+//list of tiles. will be referenced by map content:
+//referenced chronologically, if the value of Tile is not a number, a blank tile is added.
+Tiles
+[
+	Tiles/floor.png
+]
+
+Map
+{
+	Rows = 2	//y
+	Cols = 4	//x
+
+	//contains tile definitions.
+	//the map is drawn from left to right, line by line
+	Content
+	[
+		//first row
+		{
+			Type = blnk
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = blnk
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = spFu
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		//don't need to suplly all tiles, missing ones will be left blank
+	]
+}

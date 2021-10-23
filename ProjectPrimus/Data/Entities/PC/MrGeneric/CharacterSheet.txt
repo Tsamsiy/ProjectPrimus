@@ -1,0 +1,13 @@
+Character
+{
+	//Eric the generic cleric
+	Name = "Mr. Generic"
+
+	Race = 
+	Class = 
+
+	Sprite
+	{
+		
+	}
+}

@@ -1,0 +1,156 @@
+Weapon statblock
+
+-------------------------------------------------------------------------------------------------------
+SampleWeapon
+------------
+Proficency:	<class>
+Status effects:	<effect>	<save DC>
+Damage type:	<damage type>
+
+Base damage:	<single shot damage>
+Acuracy mod.:	<fix aim bonus>
+Damage mod.:	<fix damage bonus>
+Salvo mod.:	<multi shot multiplier>
+Average Damage inflicted
+	<single shot average>
+	[<shots fired>] <salvo average>
+
+#######################################################################################################
+
+-------------------------------------------------------------------------------------------------------
+Knife
+-----
+Proficency:	Military
+		Science
+		Support
+Status effects:	bleeding	DC20
+Damage type:	slicing
+
+Base damage:	50
+Acuracy mod.:	-
+Damage mod.:	-
+Salvo mod.:	-
+Average Damage inflicted
+	25
+	-
+
+-------------------------------------------------------------------------------------------------------
+Glock (9mm)
+-----------
+Proficency:	Military
+Status effects:	-
+Damage type:	Piercing
+
+Base damage:	35
+Acuracy mod.:	-
+Damage mod.:	-
+Salvo mod.:	1.7
+Average Damage inflicted
+	17.5
+	[5] 146.2
+
+-------------------------------------------------------------------------------------------------------
+Desert Eagle (50 cal)
+------------
+Proficency:	Military
+Status effects:	bleeding	DC60
+Damage type:	piercing
+
+Base damage:	120
+Acuracy mod.:	-5
+Damage mod.:	10
+Salvo mod.:	-
+Average Damage inflicted
+	60 + 10
+	-
+
+-------------------------------------------------------------------------------------------------------
+FN P90
+------
+Proficency:	Military
+Status effects:	-
+Damage type:	piercing
+
+Base damage:	40
+Acuracy mod.:	-
+Damage mod.:	-
+Salvo mod.:	1.5
+Average Damage inflicted
+	20
+	[5] 101
+
+-------------------------------------------------------------------------------------------------------
+Wraith stunner
+--------------
+Proficency:	Science
+Status effects:	paralysis	DC60
+Damage type:	energy
+
+Base damage:	1
+Acuracy mod.:	-
+Damage mod.:	-
+Salvo mod.:	-
+Average Damage inflicted
+	0.5
+	-
+
+-------------------------------------------------------------------------------------------------------
+Wraith stunn-rifle
+------------------
+Proficency:	Science
+Status effects:	paralysis	DC60
+Damage type:	energy
+
+Base damage:	10
+Acuracy mod.:	+5
+Damage mod.:	-
+Salvo mod.:	1.1
+Average Damage inflicted
+	5
+	[5] 7.3
+
+-------------------------------------------------------------------------------------------------------
+Asuran Pistol
+-------------
+Proficency:	Military
+		Science
+Status effects:	
+Damage type:	energy
+
+Base damage:	<single shot damage>
+Acuracy mod.:	<fix aim bonus>
+Damage mod.:	<fix damage bonus>
+Salvo mod.:	<multi shot multiplier>
+Average Damage inflicted
+	<single shot average>
+	[<shots fired>] <salvo average>
+
+-------------------------------------------------------------------------------------------------------
+Zat'n'ktel
+----------
+Proficency:	Science
+Status effects:	paralysis	DC70
+Damage type:	energy
+
+Base damage:	20
+Acuracy mod.:	-
+Damage mod.:	-
+Salvo mod.:	1.1
+Average Damage inflicted
+	10
+	[5] 14.6
+
+-------------------------------------------------------------------------------------------------------
+Ma'tok
+------
+Proficency:	Science
+Status effects:	
+Damage type:	energy
+
+Base damage:	100
+Acuracy mod.:	-5
+Damage mod.:	+10
+Salvo mod.:	-
+Average Damage inflicted
+	50+10
+	-

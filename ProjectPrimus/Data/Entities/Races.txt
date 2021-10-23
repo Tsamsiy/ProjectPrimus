@@ -1,0 +1,254 @@
+//Entity Stat block
+
+/*-------------------------------------------------------------------------------------------------------
+SampleEntity
+{
+	Description = "Text"		//description of the race
+	Base AV = 0			//natural damage reduction: int [%]
+	Base AC = 0			//natural ability to evade hits: int
+	MovementSpeed = 1		//units per turn, 1u ^ 5ft(0,3m): int [u]
+	AddHPBars = 0			//number of additional hidden stat bars, for calculating internal numbers: int
+	AbilityScoreIncrease		//natural abilities (max 15 per score, 20 in sum): int [%]
+	[
+		Str = 0
+		Dex = 0
+		Con = 0
+		Int = 0
+		Wis = 0
+		Cha = 0
+	]
+	Resistances			//natural resistances against damage types: int [%]
+	[
+		DamageType
+	]
+	RacialTraits
+	[
+		{
+			Name = "Text"
+			Description = "Text"
+			Effects
+			[
+			]
+		}
+	]
+}
+*/
+//#######################################################################################################
+
+//-------------------------------------------------------------------------------------------------------
+Human
+{
+	Description = "Human (basic)"	//description of the race
+	Base AV = 5			//natural damage reduction: int [%]
+	Base AC = 30			//natural ability to evade hits: int
+	Movement speed = 6		//units per turn, 1u ^ 5ft(0,3m): int [u]
+	AddHPBars = 0			//number of additional hidden stat bars, for calculating internal numbers: int
+	AbilityScoreIncrease		//natural abilities (max 15 per score, 20 in sum): int [%]
+	[
+		Str = 0
+		Dex = 5
+		Con = 0
+		Int = 10
+		Wis = 0
+		Cha = 5
+	]
+	Resistances			//natural resistances against damage types: int [%]
+	[
+	]
+	RacialTraits
+	[
+		{
+			Name = "Quick thinker"
+			Description =	"Humans have proven to perform extra fast when stressed.\n\n
+
+					Once per short rest, a human player can activate their action surge to either retry
+					a failed ability or skill check, add their Int/Wis modifier to an ability or skill
+					check or gain an additional action during combat."
+			Effects
+			[
+			]
+		}
+	]
+}
+
+//-------------------------------------------------------------------------------------------------------
+Wraith
+{
+	Description = "Wraith (basic)"	//description of the race
+	Base AV = 15			//natural damage reduction: int [%]
+	Base AC = 35			//natural ability to evade hits: int
+	Movement speed = 7		//units per turn, 1u ^ 5ft(0,3m): int [u]
+	AddHPBars = 1			//number of additional hidden stat bars, for calculating internal numbers: int
+	AbilityScoreIncrease		//natural abilities (max 15 per score, 20 in sum): int [%]
+	[
+		Str = 5
+		Dex = 0
+		Con = 5
+		Int = 0
+		Wis = 5
+		Cha = 5
+	]
+	Resistances			//natural resistances against damage types: int [%]
+	[
+		Piercing = 5
+	]
+	RacialTraits
+	[
+		{
+			Name = "Feeding"
+			Description = 	"A method of transfering health between a Wraith and other humanoid entities.
+					This transfer can be bidirectional. If Feeding takes place between to Wraith,
+					the health transfer can be specified to only take place between their reserves.\n\n
+		
+					Target must be grappled, prone, restrained or incapacitated.
+					The player specifies an amount of health and in which direction the transfer takes
+					place. They then roll 1d100 + Con modifier to determine the efficiency.
+					If feeding takes place during combat, the specified amount is capped at 25.\n\n
+		
+					If the target is not willing, opposing Con ability checks are rolled.
+					On a successful save, the transfered amount is multiplied by 50%.\n
+					failed save: specified hp * (1d100 + Con mod)\n
+					succeeded save: specified hp * (1d100 + Con mod) * 0.5\n
+					If the target is unconscious, the opposing checks are not rolled.
+
+					If the target is willing, no opposing checks are rolled and 100% efficiency is
+					asumed."
+			Effects
+			[
+			]
+		}
+	]
+}
+Wraith (basic)
+--------------
+Base AV:	15%
+Base AC:	35
+Movement speed:	7u
+Ability score increase
+	Strength:	5%
+	Dexterety:	-
+	Constitution:	5%
+	Intelligence:	-
+	Wisdom:		5%
+	Charisma:	5%
+Resistances
+	piercing	5%
+Racial traits
+	Wraith have a second, hidden pool of reserve health. This reserve can be replenished
+	if feeding (see Feeding section) exceeds 100% on regular health. Damage taken does not
+	affect this reserve.
+	A Wraith can use this reserve to regain regular health (see natural regeneration section).
+
+	Feeding
+		A method of transfering health between a Wraith and other humanoid entities.
+		This transfer can be bidirectional. If Feeding takes place between to Wraith,
+		the health transfer can be specified to only take place between their reserves.
+		
+		Target must be grappled, prone, restrained or incapacitated.
+		The player specifies an amount of health and in which direction the transfer takes
+		place. They then roll 1d100 + Con modifier to determine the efficiency.
+		If feeding takes place during combat, the specified amount is capped at 25.
+		
+		If the target is not willing, opposing Con ability checks are rolled.
+		On a successful save, the transfered amount is multiplied by 50%.
+		failed save: specified hp * (1d100 + Con mod)
+		succeeded save: specified hp * (1d100 + Con mod) * 0.5
+		If the target is unconscious, the opposing checks are not rolled.
+
+		If the target is willing, no opposing checks are rolled and 100% efficiency is asumed.
+
+	natural regeneration
+		A method of healing oneself.
+		Only affects the player themself.
+
+		While out of combat, a player regains a maximum of health equal to their Con modifier
+		every 10 minutes in-game time.
+		If the amount of replenished health is less the regenerated amount, the remaining
+		percent-points remain in the players's health reserve.
+
+		During combat, the player can take an action to heal themselves.
+		The amount of regenerated percent-points is capped at 25 before rolling for efficiency.
+		regenerated health = specified hp * (1d100 + Con mod)
+		If the regenerated amount is greater than the remaining reserve, the player regains a
+		maximum of the amount remaining in their reserve.
+
+-------------------------------------------------------------------------------------------------------
+humanoid Replicator
+-------------------
+Base AV:	25%
+Base AC:	35
+Movement speed:	7u
+Ability score increase
+	Strength:	10%
+	Dexterety:	-
+	Constitution:	-
+	Intelligence:	5%
+	Wisdom:		5%
+	Charisma:	-
+Resistances
+	energy		10%
+Racial traits
+	Replication
+		Replicator players can convert pure metal objects into nanites, which join that unit's
+		mass, effectively healing it. The object needs to weigh at least 2.2lb/1kg
+
+		While out of combat, a player regains a maximum of health equal to their Con modifier
+		every 10 minutes in-game time. This process consumes 1d100 % of the original mass of
+		the metal object. If the rolled consumed mass is greater than the mass left, the player
+		regains their Con Modifier * leftover mass % of health.
+
+		Depending on the consumed material the new nanites now have the similar properties.
+		For example consuming a metal with a low melting point, makes the unit vulnerable to
+		heat.
+
+	Shape Shifter
+		A Replicator can match their outer appearance to any entity they had touched before.
+
+	Subspace network
+		Replicators can nonverbaly communicate with any other unit in the same solar system.
+		This effect is proportionally amplified with the replicator mass gathered in a 2u cube.
+
+-------------------------------------------------------------------------------------------------------
+Jaffa
+-----
+Base AV:	10%
+Base AC:	35
+Movement speed:	6u
+Ability score increase
+	Strength:	5%
+	Dexterety:	5%
+	Constitution:	10%
+	Intelligence:	-
+	Wisdom:		-
+	Charisma:	-
+Resistances
+Racial traits
+	Goa'uld Symbiote
+		This parasitic snake-like creature lives inside a human host, effectively replacing
+		its immune system. The symbiote grants its host super-human strength and constitution
+		and can perform basic repair and filter tasks.
+
+		While out of combat, a player regains a maximum of health equal to their Con modifier
+		every 10 minutes in-game time.
+
+		During combat a player can use their symbiote to activate a temporary surge, gaining
+		complete immunity to paralysis status effects, +10 to every attack roll and additional
+		2u of movement per turn for 1d4 turns.
+
+-------------------------------------------------------------------------------------------------------
+Unas
+----
+Base AV:	25%
+Base AC:	25
+Movement speed:	6u
+Ability score increase
+	Strength:	10%
+	Dexterety:	-
+	Constitution:	10%
+	Intelligence:	-5%
+	Wisdom:		-
+	Charisma:	-
+Resistances
+	piercing	5%
+	slicing		5%
+Racial traits

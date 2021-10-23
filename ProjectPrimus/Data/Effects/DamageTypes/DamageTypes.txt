@@ -1,0 +1,34 @@
+DamageTypes
+[
+/*	DamageType
+	{
+		Description = "Text"
+		Icon = ".png"
+	}*/
+
+	Piercing
+	{
+		Description = "Text"
+		Icon = ".png"
+	}
+	Slicing
+	{
+		Description = "Text"
+		Icon = ".png"
+	}
+	Energy
+	{
+		Description = "Text"
+		Icon = ".png"
+	}
+	Necrotic
+	{
+		Description = "Text"
+		Icon = ".png"
+	}
+	Blunt
+	{
+		Description = "Text"
+		Icon = ".png"
+	}
+]

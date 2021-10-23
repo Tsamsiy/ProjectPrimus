@@ -1,0 +1,41 @@
+The ganme expects the world folder (campaign) to be in Data/Maps/<campaignName>/Summary.txt
+summary.txt holds path descriptions to all available map segments
+
+The world folder is organized as follows:
+CampaignName
+	Summary.txt
+	Region1
+		Level1
+			Tiles
+				Tile1.png
+				Tile2.png
+			map.csv
+		Level2
+			Tiles
+				Tile1.png
+				Tile2.png
+			map.csv
+		Level3
+			Tiles
+				Tile1.png
+				Tile2.png
+				Tile3.png
+			map.csv
+	Region2
+		Level1
+			Tiles
+				Tile1.png
+				Tile2.png
+			map.csv
+		Level2
+			Tiles
+				Tile1.png
+				Tile2.png
+				Tile3.png
+			map.csv
+
+----------------------------------------------------------------------------------------------------------------------
+Summary.txt
+-----------
+
+	

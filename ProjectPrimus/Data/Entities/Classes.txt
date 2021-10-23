@@ -1,0 +1,51 @@
+-------------------------------------------------------------------------------------------------------
+Classes
+-------
+Each class grants specific ability score increases and proficencies.
+The player can choose 6 of the 18 skills to be proficient in. The listed Skills below, are
+recomendations for each class.
+
+Military
+	Ability score increase
+		Strength:	2%
+		Dexterety:	-
+		Constitution:	2%
+		Intelligence:	-
+		Wisdom:		-
+		Charisma:	-
+	Proficency:	Acrobatics
+			Athletics
+			Intimidation
+			Perception
+			Stealth
+			Survival
+
+Science
+	Ability score increase
+		Strength:	-
+		Dexterety:	-
+		Constitution:	-
+		Intelligence:	2%
+		Wisdom:		2%
+		Charisma:	-
+	Proficency:	Arcana
+			History
+			Investigation
+			Medicine
+			Nature
+			Religion
+
+Support
+	Ability score increase
+		Strength:	-
+		Dexterety:	2%
+		Constitution:	-
+		Intelligence:	-
+		Wisdom:		-
+		Charisma:	2%
+	Proficency:	Animal Handling
+			Deception
+			Insight
+			Performance
+			Persuasion
+			Sleight of Hand

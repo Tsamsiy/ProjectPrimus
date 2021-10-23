@@ -1,0 +1,4 @@
+Language = "EN"		
+ShowStats = 1		//show remaining health and other hidden numbers of all entities: bool
+ManualDice = 1		//manually input the random number elements: bool
+AutoSave = 300		//time between automaic saves: int [s]

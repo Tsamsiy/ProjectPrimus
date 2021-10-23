@@ -1,0 +1,69 @@
+StatusEffects
+[
+/*	//A value marked with "*" can be overwritten by external source
+	StatusEffect
+	{
+		Description = "Text"
+		Type = Stat			//what kind of stat is affected: {Ability, Skill, Stat}
+		Stat = HP[0]			//which stat is affected (depends on the type)
+		* Value = 0			//the value that goes in the calculation: int
+		* Interval = 0			//time between calculations outside of combat (0 ^ onte time only): int [s]
+		* Duration = 0			//how long the effect lasts: int [s]
+		Icon = ".png"
+	}*/
+
+	Bleeding
+	{
+		Description = "Bleeding can be caused by slicing and piercing damage."
+		Type = Stat			//what kind of stat is affected: {Ability, Skill, Stat}
+		Stat = HP[0]			//which stat is affected (depends on the type)
+		Value = 1			//the value that goes in the calculation: int
+		Interval = 1			//time between calculations outside of combat (0 ^ onte time only): int [s]
+		Duration = 0			//how long the effect lasts: int [s]
+		Icon = ".png"
+	}
+
+	Paralysis
+	{
+		Description = "Text"
+		Type = Stat			//what kind of stat is affected: {Ability, Skill, Stat}
+		Stat = Conscious		//which stat is affected (depends on the type)
+		Value = 0			//the value that goes in the calculation: int
+		Interval = 0			//time between calculations outside of combat (0 ^ onte time only): int [s]
+		Duration = 300			//how long the effect lasts: int [s]
+		Icon = ".png"
+	}
+
+	Heat
+	{
+		Description = "Text"
+		Type = Stat			//what kind of stat is affected: {Ability, Skill, Stat}
+		Stat = HP[0]			//which stat is affected (depends on the type)
+		Value = 0			//the value that goes in the calculation: int
+		Interval = 0			//time between calculations outside of combat (0 ^ onte time only): int [s]
+		Duration = 0			//how long the effect lasts: int [s]
+		Icon = ".png"
+	}
+
+	Cold
+	{
+		Description = "Text"
+		Type = Stat			//what kind of stat is affected: {Ability, Skill, Stat}
+		Stat = HP[0]			//which stat is affected (depends on the type)
+		Value = 0			//the value that goes in the calculation: int
+		Interval = 0			//time between calculations outside of combat (0 ^ onte time only): int [s]
+		Duration = 0			//how long the effect lasts: int [s]
+		Icon = ".png"
+	}
+
+	Adrenaline
+	{
+		Description = "Text"
+		Type = Stat			//what kind of stat is affected: {Ability, Skill, Stat}
+		Stat = HP[0]			//which stat is affected (depends on the type)
+		Value = 0			//the value that goes in the calculation: int
+		Interval = 0			//time between calculations outside of combat (0 ^ onte time only): int [s]
+		Duration = 0			//how long the effect lasts: int [s]
+		Icon = ".png"
+	}
+]

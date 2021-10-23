@@ -1,0 +1,104 @@
+Weapon statblock
+
+/*-------------------------------------------------------------------------------------------------------
+SampleArmor
+{
+	AC = 0
+	AV = [0, 0]
+	Resistances
+	[
+		//damage types
+	]
+	Conditions
+	[
+		
+	]
+}
+*/
+
+#######################################################################################################
+
+-------------------------------------------------------------------------------------------------------
+stab-proof vest
+---------------
+AC:		0
+AV:		70%	15%
+Resistances:	slicing
+Conditions:	-
+
+-------------------------------------------------------------------------------------------------------
+bullet-proof vest (light)
+-------------------------
+AC:		-3
+AV:		70%	30%
+Resistances:	piercing
+Conditions:	not effective above light rounds
+
+-------------------------------------------------------------------------------------------------------
+bullet-proof vest (heavy)
+-------------------------
+AC:		-15
+AV:		80%	45%
+Resistances:	piercing
+Conditions:	not effective above medium rounds
+		decreased movement
+		-5% on stealth
+
+-------------------------------------------------------------------------------------------------------
+plated armor
+------------
+AC:		-25
+AV:		95%	60%
+Resistances:	piercing
+Conditions:	decreased movement
+		disadvantage on stealth
+
+-------------------------------------------------------------------------------------------------------
+Wraith Soldier's uniform
+------------------------
+AC:		-5
+AV:		70%	25%
+Resistances:	slicing
+Conditions:	-
+
+-------------------------------------------------------------------------------------------------------
+Jaffa Cainmaille
+----------------
+AC:		-5
+AV:		70%	30%
+Resistances:	slicing
+Conditions:	-
+
+-------------------------------------------------------------------------------------------------------
+Jaffa Plate
+-----------
+AC:		-5
+AV:		70%	35%
+Resistances:	slicing
+Conditions:	-5% on stealth
+
+-------------------------------------------------------------------------------------------------------
+energy shield
+-------------
+AC:		0
+AV:		100%	5%
+Resistances:	energy
+Conditions:	no use of energy weapons
+
+-------------------------------------------------------------------------------------------------------
+particle shield
+---------------
+AC:		0
+AV:		100%	5%
+Resistances:	projectiles
+Conditions:	no use of projectile weapons
+
+-------------------------------------------------------------------------------------------------------
+dephlector shield
+-----------------
+AC:		0
+AV:		100%	100%
+Resistances:	projectiles
+		energy
+Conditions:	no use of weapons
+		atmosphere tight

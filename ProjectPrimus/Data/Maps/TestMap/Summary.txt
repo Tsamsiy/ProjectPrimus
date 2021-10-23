@@ -1,0 +1,65 @@
+//simple list of paths to each map file, relative to the location of this text file
+//region and level organisation is implemented later
+World
+[
+	<Level1/Map.txt>
+	<Level2/Map.txt>
+	/*<Level2/Map2.txt>
+	<Level3/Map.txt>*/
+]
+
+//Which characters are playing in this world
+//These hold world dependant info like coordinates on the map, Inventory, etc
+//the actual character sheets are defined in Data/Entities/
+CharacterInfo
+[
+	{
+		CharacterSheet = "<Data/Entities/PC/Summary.txt>/Entities/0"		//Path to character sheet
+		
+		Location
+		{
+			Map = 0		//References an entry of the above list "World"
+			XTile = 0
+			YTile = 2
+		}
+		Stats
+		{
+			HP
+			[
+				0 = 100
+				//1 = 0
+				//2 = 0
+			]
+		}
+		Inventory
+		{
+			//inventory of standard items
+			STD
+			[
+				/*{
+					Item = ""	//name of the Item. needs to match the name string in Item definition
+					Count = 0	//how many are in their possession
+					Equipped = 0	//did they currently use this
+				}*/
+			]
+
+			//inventory of defensive items: Armors
+			DEF
+			[
+				/*{
+					Item = ""	//name of the Item. needs to match the name string in Item definition
+					Equipped = 0	//did they currently use this
+				}*/
+			]
+
+			//inventory of offensive items: Arms/Weapons
+			ARM
+			[
+				/*{
+					Item = ""	//name of the Item. needs to match the name string in Item definition
+					Equipped = 0	//did they currently use this
+				}*/
+			]
+		}
+	}
+]

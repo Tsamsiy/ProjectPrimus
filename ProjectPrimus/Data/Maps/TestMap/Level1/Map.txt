@@ -1,0 +1,279 @@
+/*
+enum TileType
+{
+	blnk,	//blank: Tile "not existant", no texture needed, automatically blocked
+	strd,	//standard: with texture, can be blocked, no effects on character
+	spFu	//special function: with texture, can be blocked, effect defined in parameter string
+};
+*/
+
+//list of tiles. will be referenced by map content:
+//referenced chronologically, if the value of Tile is not a number, a blank tile is added.
+Tiles
+[
+	<Tiles/floor.png>
+	<Tiles/wall.png>
+	//<Tiles/floor3.png>
+	//<Tiles/floor4.png>
+]
+
+Map
+{
+	Rows = 5	//y
+	Cols = 8	//x
+
+	//contains tile definitions.
+	//the map is drawn from left to right, line by line
+	Content
+	[
+		//first row
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		
+		//second row
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+
+		//third row
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+
+		//fourth row
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+
+		//fifth row
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 0
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 0
+			Parameter = ""
+		}
+	]
+}
