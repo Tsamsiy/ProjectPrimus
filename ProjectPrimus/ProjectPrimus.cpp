@@ -13,16 +13,19 @@
 #include <string>
 
 #include "Sources/Maps.hpp"
+#include "Sources/Characters.hpp"
 #include "Sources/Parser.hpp"
 
 std::string worldFolder = "Data/Maps/TestMap";
 World world;
 
-double mapScale = 1.0;
-unsigned xPos = 0.0;
-unsigned yPos = 0.0;
-unsigned dx = 0.0;
-unsigned dy = 0.0;
+Character entity;
+
+double mapScale = 2.0;
+int16_t xPos = 0;
+int16_t yPos = 0;
+int16_t dx = 0;
+int16_t dy = 0;
 
 bool MS_LEFT_PRESS = false;
 
@@ -44,10 +47,12 @@ public:
 		if (input().down(Gosu::MS_LEFT))
 		{
 			world.maps.at(0).drawMap((xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), 0, mapScale);
+			entity.draw(world.maps.at(0), (xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), mapScale);
 		}
 		else
 		{
 			world.maps.at(0).drawMap(xPos, yPos, 0, mapScale);
+			entity.draw(world.maps.at(0), xPos, yPos, mapScale);
 		}
 	}
 
@@ -95,6 +100,14 @@ public:
 // C++ Hauptprogramm
 int main()
 {
+	if (!world.items.loadItems())
+	{
+		std::cout << "\tNo valid Item definitions found!\n";
+	}
+	else
+	{
+		std::cout << "\tItem lists loaded\n";
+	}
 
 	if (!world.loadWorldFile(worldFolder))
 	{
@@ -110,9 +123,40 @@ int main()
 		std::cout << "\tWorld loaded: \"" << worldFolder << "\"\n";
 	}
 
-	//strExtractByDelim('/', worldFolder);
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a1.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a2.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a3.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a4.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a5.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a6.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a7.png");
+
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a8.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a9.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a10.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a11.png");
+	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a12.png");
+	
+	entity.xTile = 3;
+	entity.yTile = 2;
+	entity.facing = FACING::UP;
 
 	GameWindow window;
 	window.show();
-	//testMap.maps.at(0).drawMap(0, 0);
+	
+
+	/*std::string test = "-1523.0150";
+	
+	//strExtractByDelim('/', worldFolder);
+	
+	double num = 0;
+	std::cout << strParseDouble(test, num) << "\n";
+	std::cout << num << "\n";
+	std::cout << std::stod(test) << "\n";*/
+
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	std::cout << strAccessCSV(test, '.', i) << "\n";
+	//}
+	
 }

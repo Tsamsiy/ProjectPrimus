@@ -21,17 +21,17 @@
 */
 
 class Map;
+class Character;
 
 class World
 {
-private:
+//private:
+public:
 	std::vector<Map> maps;				//each map/level of the world. organisation in regions and levels is implemented later
 	std::vector<Character> entities;	//all the characters that play on this world
-	std::vector<STDItem> items;			//global list of all standard items in the game. not dependant on which world is loaded
-	std::vector<DEFItem> armors;		//global list of all armors in the game. not dependant on which world is loaded
-	std::vector<ARMItem> weapons;		//global list of all weapons in the game. not dependant on which world is loaded
+	Item items;							//global list of all standard items in the game. not dependant on which world is loaded
 
-public:
+//public:
 
 	bool loadWorldFile(std::string path);		//loads the map contents from the world folder. needs path to the folder where Summary.txt is stored 
 };
@@ -47,7 +47,7 @@ struct Tile
 {
 	TileType type = blnk;
 	//Gosu::Image* texture = NULL;
-	unsigned texture;
+	unsigned texture = 0;
 	bool blocked = true;
 	std::string parameter;
 };
@@ -66,10 +66,14 @@ private:
 	bool parseContent(std::string path, std::ifstream& file, std::streampos start, std::streampos stop);		//loads and processes map content definitions. is called by Map::loadMapFile()
 
 public:
-	uint16_t getRows();			//returns number of tiles in y direction 
-	uint16_t getCols();			//returns number of tiles in x direction
+	uint16_t getRows() const;			//returns number of tiles in y direction 
+	uint16_t getCols() const;			//returns number of tiles in x direction
+	unsigned getTileHeight() const;			//returns height of the tiles
+	unsigned getTileWidth() const;			//returns width of the tiles
+	bool tileBlocked(uint16_t x, uint16_t y) const;		//returns the blocked variable of the tile at the given coordinates
 	//void drawMap(double x, double y, Gosu::ZPos z = 0, double angle = 0, double center_x = 0.5, double center_y = 0.5, double scale_x = 1, double scale_y = 1, Gosu::Color c = Gosu::Color::WHITE /*, Gosu::AlphaMode mode = AM_DEFAULT*/);				//this goes in GameWindow::draw()
-	void drawMap(double xPos, double yPos, Gosu::ZPos z = 0, double scale = 1.0);			//simple version
+	void drawMap(double xPos, double yPos, Gosu::ZPos z = 0, double scale = 1.0) const;			//simple version
+	void getTileCoords(uint16_t xTile, uint16_t yTile, double& xPos, double& yPos, double scale = 1.0) const;			//returns the coordinates where the given tile's upper left corner would be (map at 0, 0)
 	bool loadMapFile(std::string path);			//this reads the map files provided by Summary.txt and loads the contents. is called by World::loadWorldFile()
 
 };

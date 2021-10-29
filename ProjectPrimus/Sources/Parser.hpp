@@ -58,6 +58,9 @@ static bool removeChars(std::string& s, const char x)
 			//s = s.substr(0, i) + s.substr(i + 1);
 			s.erase(s.begin() + i);
 			removed = true;
+
+			//decrease position, since the string has been shortened
+			i--;
 		}
 	}
 	return removed;
@@ -79,6 +82,9 @@ static bool removeFormatting(std::string& s)
 			//s = s.substr(0, i) + s.substr(i + 1);
 			s.erase(s.begin() + i);
 			removed = true;
+
+			//decrease position, since the string has been shortened
+			i--;
 		}
 	}
 	return removed;
@@ -294,7 +300,7 @@ static bool seekField(std::ifstream& file, const std::string& field, const char 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Extracts a portion of a string marked by the given delimiter
 //if invert is true, the portion between the delimiters is deleted
-static bool strExtractByDelim(std::string& str, bool invert, const char delim)
+static bool strExtractByDelim(std::string& str, const bool invert, const char delim)
 {
 	//will extract a substring embraced by the specified delimiters
 	//only uses the first and very last appearance of the delimiter
@@ -327,7 +333,7 @@ static bool strExtractByDelim(std::string& str, bool invert, const char delim)
 }
 //Extracts a portion of a string marked by the given delimiter
 //if invert is true, the portion between the delimiters is deleted
-static bool strExtractByDelim(std::string& str, bool invert, const char delimA, const char delimB)
+static bool strExtractByDelim(std::string& str, const bool invert, const char delimA, const char delimB)
 {
 	//will extract a substring embraced by the specified delimiters
 	//only uses the first and very last appearance of the delimiter
@@ -359,3 +365,162 @@ static bool strExtractByDelim(std::string& str, bool invert, const char delimA, 
 	return true;
 }
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//extracts the element at the n-th index from a string of comma separated values.
+//if n exceeds the number of elements, an empty string is returned
+static std::string strAccessCSV(const std::string& s, const unsigned n)
+{
+	std::string temp = s;
+	//remove the leading elements
+	for (unsigned i = 0; i < n; i++)
+	{
+		//there's no more delimiter, but still more elements to remove
+		//without this, the last element is returned when n exceeds number of elements
+		if ((temp.find(',') == std::string::npos) && (n == (i + 1)))
+		{
+			temp.clear();
+			return temp;
+		}
+
+		temp = temp.substr(temp.find(',') + 1);
+	}
+	//remove following elements
+	temp = temp.substr(0, temp.find(','));
+
+	return temp;
+};
+//extracts the element at the n-th index from a string of comma separated values.
+//if n exceeds the number of elements, an empty string is returned
+static std::string strAccessCSV(const std::string& s, const char delim, const unsigned n)
+{
+	std::string temp = s;
+	//remove the leading elements
+	for (unsigned i = 0; i < n; i++)
+	{
+		//there's no more delimiter, but still more elements to remove
+		//without this, the last element is returned when n exceeds number of elements
+		if ((temp.find(delim) == std::string::npos) && (n == (i + 1)))
+		{
+			temp.clear();
+			return temp;
+		}
+
+		temp = temp.substr(temp.find(delim) + 1);
+	}
+	//remove following elements
+	temp = temp.substr(0, temp.find(delim));
+
+	return temp;
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Tries to cenvert the given string into an integer.
+//Returns true if the value is usable, the reference is not altered if parsing fails
+static bool strParseInt(const std::string& s, int& var)
+{
+	if (s.empty())
+	{
+		return false;
+	}
+
+	std::string temp = s;
+	int num = 0;
+
+	//removeFormatting(temp);
+	//std::cout << temp << "\n";
+
+	//convert to integer
+	for (int i = 0; i < temp.size(); i++)
+	{
+		//this will ignore any char that is not a number
+		if (((temp.at(i) >= '0') && (temp.at(i) <= '9')) || (temp.at(i) == '-'))
+		{
+			if (temp.at(i) != '-')
+			{
+				num *= 10;
+				num += temp.at(i) - '0';
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	//negate if there's a '-'
+	//if (temp.find("-") != std::string::npos)
+	//negate if there' a '-' at the start
+	if(temp.at(0) == '-')
+	{
+		num *= -1;
+	}
+
+	var = num;
+	return true;
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Tries to cenvert the given string into an unsigned integer.
+//Returns true if the value is usable, the reference is not altered if parsing fails
+static bool strParseUnsigned(const std::string& s, unsigned& var)
+{
+	if (s.empty())
+	{
+		return false;
+	}
+
+	std::string temp = s;
+	unsigned num = 0;
+
+	//removeFormatting(temp);
+	//std::cout << temp << "\n";
+
+	//convert to integer
+	for (int i = 0; i < temp.size(); i++)
+	{
+		//this will ignore any char that is not a number
+		if ((temp.at(i) >= '0') && (temp.at(i) <= '9'))
+		{
+			num *= 10;
+			num += temp.at(i) - '0';
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	var = num;
+	return true;
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+static bool strParseDouble(const std::string& s, double& var)
+{
+	if (s.empty())
+	{
+		return false;
+	}
+
+	std::string temp = s;
+
+	//removeFormatting(temp);
+	//std::cout << temp << "\n";
+
+	//check for syntax
+	for (int i = 0; i < temp.size(); i++)
+	{
+		//this will ignore any char that is not a number
+		if (((temp.at(i) >= '0') && (temp.at(i) <= '9')) || (temp.at(i) == '.') || (temp.at(i) == '-'))
+		{
+			
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	var = std::stod(temp);
+
+	return true;
+}

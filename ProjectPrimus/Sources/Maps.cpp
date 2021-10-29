@@ -9,19 +9,20 @@ bool World::loadWorldFile(std::string path)
 	std::streampos start;
 	std::streampos stop;
 
-	std::cout << "reading world summary file: " << path << "/Summary.txt\n";
+	std::cout << "reading world summary file: \"" << path << "/Summary.txt\"\n";
 
 	//open file
 	std::ifstream file(path + "/Summary.txt");
 	if (!file)
 	{
+		std::cout << "\tFile not found: \"" << path << "/Summary.txt\"\n";
 		return false;
 	}
 
 	if (!seekField(file, "World", '[', ']', start, stop))
 	{
 		//main definitions are missing in the document, so skip it
-		std::cout << "\t\tMissing data list \"World\"[...]\n";
+		std::cout << "\tMissing data list \"World\"[...]\n";
 		file.close();
 		return false;
 	}
@@ -73,15 +74,51 @@ bool World::loadWorldFile(std::string path)
 
 //#######################################################################################################################################################################
 
-uint16_t Map::getRows()
+uint16_t Map::getRows() const
 {
 	return this->rows;
 };
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-uint16_t Map::getCols()
+uint16_t Map::getCols() const
 {
 	return this->cols;
+};
+
+unsigned Map::getTileHeight() const
+{
+	return this->height;
+};
+
+unsigned Map::getTileWidth() const
+{
+	return this->width;
+};
+
+bool Map::tileBlocked(uint16_t x, uint16_t y) const
+{
+	int i = 0;
+
+	//check if the given coordinates are out of bounds
+	if ((x >= this->cols) || (y >= this->rows))
+	{
+		return true;
+	}
+
+	for (unsigned r = 0; r < this->rows; r++)
+	{
+		for (unsigned c = 0; c < this->cols; c++)
+		{
+			if ((x == c) && (y == r))
+			{
+				return this->content.at(i).blocked;
+			}
+
+			i++;
+		}
+	}
+
+	//return true;
 };
 
 /*/-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -144,7 +181,7 @@ void Map::drawMap(double x, double y, Gosu::ZPos z = 0, double angle = 0, double
 };*/
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-void Map::drawMap(double xPos, double yPos, Gosu::ZPos z, double scale)
+void Map::drawMap(double xPos, double yPos, Gosu::ZPos z, double scale) const
 {
 	//std::cout << "Drawing Map: Size = " << this->content.size() << "\n";
 	int i = 0;
@@ -185,6 +222,34 @@ void Map::drawMap(double xPos, double yPos, Gosu::ZPos z, double scale)
 };
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//returns the coordinates where the given tile's upper left corner would be (map at 0, 0)
+void Map::getTileCoords(uint16_t xTile, uint16_t yTile, double& xPos, double& yPos, double scale) const
+{
+	for (unsigned r = 0; r < this->rows; r++)
+	{
+		for (unsigned c = 0; c < this->cols; c++)
+		{
+			if ((xTile == c) && (yTile == r))
+			{
+				double xTilePos = 0.0;
+				double yTilePos = 0.0;
+
+				//calculate coordinates of upper left corner of each tile while unrotated
+				xTilePos = ((double)this->width * (double)c * scale);
+				yTilePos = ((double)this->height * (double)r * scale);
+
+				//needs correction so that no gaps are schowing between tiles
+				xTilePos *= (1 - 0.01);
+				yTilePos *= (1 - 0.01);
+
+				xPos = xTilePos;
+				yPos = yTilePos;
+			}
+		}
+	}
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 bool Map::loadMapFile(std::string path)
 {
 	//bool parseTilesOk = false;
@@ -193,12 +258,13 @@ bool Map::loadMapFile(std::string path)
 	std::streampos start;
 	std::streampos stop;
 
-	std::cout << "\tReading map file: " << path << "\n";
+	std::cout << "\tReading map file: \"" << path << "\"\n";
 
 	//open file
 	std::ifstream file(path);
 	if (!file)
 	{
+		std::cout << "\t\tFile not found: \"" << path << "\"\n";
 		return false;
 	}
 

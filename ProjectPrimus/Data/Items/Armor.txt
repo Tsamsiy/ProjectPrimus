@@ -1,10 +1,11 @@
-Weapon statblock
+//Weapon statblock
 
 /*-------------------------------------------------------------------------------------------------------
-SampleArmor
 {
-	AC = 0
-	AV = [0, 0]
+	Name = "SampleArmor"		//Name of the Item. Is used to identify: NO DUPLICATES
+	Description = "Text"		//description text
+	AC = 0				//how much it impedes your ability to dodge attacks
+	AV = [0, 0]			//damage absorbtion in percent: [specialised, standard]
 	Resistances
 	[
 		//damage types
@@ -15,90 +16,149 @@ SampleArmor
 	]
 }
 */
+//#######################################################################################################
+Armors
+[
+	{
+		Name = "Stab-proof Vest"
+		Description = "Light piece of clothing made from cut and tear resistant fabric."
+		AC = 0
+		AV = [70, 15]
+		Resistances
+		[
+			//slicing
+		]
+		Conditions
+		[
+			
+		]
+	}
+	{
+		Name = "Bullet-proof Vest (light)"		//Name of the Item. Is used to identify: NO DUPLICATES
+		Description = "Standard Kevlar vest. Effective against small arms."		//description text
+		AC = -3				//how much it impedes your ability to dodge attacks
+		AV = [70, 30]			//damage absorbtion in percent: [specialised, standard]
+		Resistances
+		[
+			//piercing
+		]
+		Conditions
+		[
+			
+		]
+	}
+	{
+		Name = "Bullet-proof Vest (heavy)"			//Name of the Item. Is used to identify: NO DUPLICATES
+		Description = "Modified Kevlar vest.\nAdditional padding and ceramic compound plates grant extra protection."		//description text
+		AC = 0				//how much it impedes your ability to dodge attacks
+		AV = [80, 45]			//damage absorbtion in percent: [specialised, standard]
+		Resistances
+		[
+			//piercing
+		]
+		Conditions
+		[
+			
+		]
+	}
+	{
+		Name = "Plated Armor"			//Name of the Item. Is used to identify: NO DUPLICATES
+		Description = "You are a walking tank."		//description text
+		AC = -25				//how much it impedes your ability to dodge attacks
+		AV = [95, 60]			//damage absorbtion in percent: [specialised, standard]
+		Resistances
+		[
+			//piercing
+		]
+		Conditions
+		[
+			
+		]
+	}
+	//----------------------------------------------------------------------------------------------------
+	{
+		Name = "Wraith Soldier's Uniform"			//Name of the Item. Is used to identify: NO DUPLICATES
+		Description = "Standard equipment of Wraith drones. not effective against projectile weapons."		//description text
+		AC = -5				//how much it impedes your ability to dodge attacks
+		AV = [70, 25]			//damage absorbtion in percent: [specialised, standard]
+		Resistances
+		[
+			//damage types
+		]
+		Conditions
+		[
+			
+		]
+	}
+	{
+		Name = "Jaffa Chainmaille"			//Name of the Item. Is used to identify: NO DUPLICATES
+		Description = "Grants light protection against blades."		//description text
+		AC = -5				//how much it impedes your ability to dodge attacks
+		AV = [70, 30]			//damage absorbtion in percent: [specialised, standard]
+		Resistances
+		[
+			//damage types
+		]
+		Conditions
+		[
+			
+		]
+	}
+	{
+		Name = "Jaffa Plate"			//Name of the Item. Is used to identify: NO DUPLICATES
+		Description = "Mostly ornamental. Made for intimidation rather than dephlecting bullets."		//description text
+		AC = -5				//how much it impedes your ability to dodge attacks
+		AV = [70, 35]			//damage absorbtion in percent: [specialised, standard]
+		Resistances
+		[
+			//damage types
+		]
+		Conditions
+		[
+			
+		]
+	}
+	{
+		Name = "Energy Shield"			//Name of the Item. Is used to identify: NO DUPLICATES
+		Description = "Force field that absorbs energy based weapons fire."		//description text
+		AC = 0				//how much it impedes your ability to dodge attacks
+		AV = [100, 5]			//damage absorbtion in percent: [specialised, standard]
+		Resistances
+		[
+			//damage types
+		]
+		Conditions
+		[
+			
+		]
+	}
+	{
+		Name = "Particle Shield"			//Name of the Item. Is used to identify: NO DUPLICATES
+		Description = "Force field that absorbs kinetic energy of fast moving projectiles."		//description text
+		AC = 0				//how much it impedes your ability to dodge attacks
+		AV = [100, 5]			//damage absorbtion in percent: [specialised, standard]
+		Resistances
+		[
+			//damage types
+		]
+		Conditions
+		[
+			
+		]
+	}
+	{
+		Name = "Dephlector Shield"			//Name of the Item. Is used to identify: NO DUPLICATES
+		Description = "Impenetratable force field. Caution: Atmosphere tight!"		//description text
+		AC = 0				//how much it impedes your ability to dodge attacks
+		AV = [100, 100]			//damage absorbtion in percent: [specialised, standard]
+		Resistances
+		[
+			//damage types
+		]
+		Conditions
+		[
+			
+		]
+	}
+]
 
-#######################################################################################################
-
--------------------------------------------------------------------------------------------------------
-stab-proof vest
----------------
-AC:		0
-AV:		70%	15%
-Resistances:	slicing
-Conditions:	-
-
--------------------------------------------------------------------------------------------------------
-bullet-proof vest (light)
--------------------------
-AC:		-3
-AV:		70%	30%
-Resistances:	piercing
-Conditions:	not effective above light rounds
-
--------------------------------------------------------------------------------------------------------
-bullet-proof vest (heavy)
--------------------------
-AC:		-15
-AV:		80%	45%
-Resistances:	piercing
-Conditions:	not effective above medium rounds
-		decreased movement
-		-5% on stealth
-
--------------------------------------------------------------------------------------------------------
-plated armor
-------------
-AC:		-25
-AV:		95%	60%
-Resistances:	piercing
-Conditions:	decreased movement
-		disadvantage on stealth
-
--------------------------------------------------------------------------------------------------------
-Wraith Soldier's uniform
-------------------------
-AC:		-5
-AV:		70%	25%
-Resistances:	slicing
-Conditions:	-
-
--------------------------------------------------------------------------------------------------------
-Jaffa Cainmaille
-----------------
-AC:		-5
-AV:		70%	30%
-Resistances:	slicing
-Conditions:	-
-
--------------------------------------------------------------------------------------------------------
-Jaffa Plate
------------
-AC:		-5
-AV:		70%	35%
-Resistances:	slicing
-Conditions:	-5% on stealth
-
--------------------------------------------------------------------------------------------------------
-energy shield
--------------
-AC:		0
-AV:		100%	5%
-Resistances:	energy
-Conditions:	no use of energy weapons
-
--------------------------------------------------------------------------------------------------------
-particle shield
----------------
-AC:		0
-AV:		100%	5%
-Resistances:	projectiles
-Conditions:	no use of projectile weapons
-
--------------------------------------------------------------------------------------------------------
-dephlector shield
------------------
-AC:		0
-AV:		100%	100%
-Resistances:	projectiles
-		energy
-Conditions:	no use of weapons
-		atmosphere tight

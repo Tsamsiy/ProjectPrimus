@@ -1,156 +1,232 @@
-Weapon statblock
+//Weapon statblock
 
--------------------------------------------------------------------------------------------------------
-SampleWeapon
-------------
-Proficency:	<class>
-Status effects:	<effect>	<save DC>
-Damage type:	<damage type>
+/*/-------------------------------------------------------------------------------------------------------
+{
+	Name = "SampleWeapon"			//name of the item. used as identifier: NO DUPLICATES
+	Description = "Text"			//description text
+	DamageType = 				//what kind of damage
 
-Base damage:	<single shot damage>
-Acuracy mod.:	<fix aim bonus>
-Damage mod.:	<fix damage bonus>
-Salvo mod.:	<multi shot multiplier>
-Average Damage inflicted
-	<single shot average>
-	[<shots fired>] <salvo average>
+	BaseDamage = 0				//single shot base value [double]
+	AcuracyModifier = 0			//fixed aim bonus [double]
+	DamageModifier = 0			//fixed damage bonus [double]
+	SalvoModifier = 0			//multi shot multiplier [double]
+	//average damage:	single:		salvo[5]:	//bD*(sM^(n-1))*0.5
 
-#######################################################################################################
+	//which classes are proficient using this weapon
+	Proficency
+	[
+		
+	]
+	//effects the weapon might inflict on the target
+	StatusEffects
+	[
+		
+	]
+}
+*/
+//#######################################################################################################
+Weapons
+[
+	{
+		Name = "Knife"			//name of the item. used as identifier: NO DUPLICATES
+		Description = "Text"			//description text
+		DamageType = 				//what kind of damage
 
--------------------------------------------------------------------------------------------------------
-Knife
------
-Proficency:	Military
-		Science
-		Support
-Status effects:	bleeding	DC20
-Damage type:	slicing
+		BaseDamage = 50				//single shot base value [double]
+		AcuracyModifier = 0			//fixed aim bonus [double]
+		DamageModifier = 0			//fixed damage bonus [double]
+		SalvoModifier = 0			//multi shot multiplier [double]
+		//average damage:	single:25	salvo[5]:	//bD*(sM^(n-1))*0.5
 
-Base damage:	50
-Acuracy mod.:	-
-Damage mod.:	-
-Salvo mod.:	-
-Average Damage inflicted
-	25
-	-
+		//which classes are proficient using this weapon
+		Proficency
+		[
+			//military
+			//Science
+			//Support
+		]
+		//effects the weapon might inflict on the target
+		StatusEffects
+		[
+			//bleeding, DC20
+		]
+	}
+	{
+		Name = "Glock (9mm)"			//name of the item. used as identifier: NO DUPLICATES
+		Description = "Text"			//description text
+		DamageType = 				//what kind of damage
 
--------------------------------------------------------------------------------------------------------
-Glock (9mm)
------------
-Proficency:	Military
-Status effects:	-
-Damage type:	Piercing
+		BaseDamage = 35				//single shot base value [double]
+		AcuracyModifier = 0			//fixed aim bonus [double]
+		DamageModifier = 0			//fixed damage bonus [double]
+		SalvoModifier = 1.7			//multi shot multiplier [double]
+		//average damage:	single:17.5	salvo[5]:146.2	//bD*(sM^(n-1))*0.5
 
-Base damage:	35
-Acuracy mod.:	-
-Damage mod.:	-
-Salvo mod.:	1.7
-Average Damage inflicted
-	17.5
-	[5] 146.2
+		//which classes are proficient using this weapon
+		Proficency
+		[
+			//Military
+		]
+		//effects the weapon might inflict on the target
+		StatusEffects
+		[
+			
+		]
+	}
+	{
+		Name = "Desert Eagle (50 cal)"			//name of the item. used as identifier: NO DUPLICATES
+		Description = "Text"			//description text
+		DamageType = 				//what kind of damage
 
--------------------------------------------------------------------------------------------------------
-Desert Eagle (50 cal)
-------------
-Proficency:	Military
-Status effects:	bleeding	DC60
-Damage type:	piercing
+		BaseDamage = 120				//single shot base value [double]
+		AcuracyModifier = -5			//fixed aim bonus [double]
+		DamageModifier = 10			//fixed damage bonus [double]
+		SalvoModifier = 0			//multi shot multiplier [double]
+		//average damage:	single:60+10	salvo[5]:	//bD*(sM^(n-1))*0.5
 
-Base damage:	120
-Acuracy mod.:	-5
-Damage mod.:	10
-Salvo mod.:	-
-Average Damage inflicted
-	60 + 10
-	-
+		//which classes are proficient using this weapon
+		Proficency
+		[
+			//Military
+		]
+		//effects the weapon might inflict on the target
+		StatusEffects
+		[
+			
+		]
+	}
+	{
+		Name = "FN P90"			//name of the item. used as identifier: NO DUPLICATES
+		Description = "Text"			//description text
+		DamageType = 				//what kind of damage
 
--------------------------------------------------------------------------------------------------------
-FN P90
-------
-Proficency:	Military
-Status effects:	-
-Damage type:	piercing
+		BaseDamage = 40				//single shot base value [double]
+		AcuracyModifier = 0			//fixed aim bonus [double]
+		DamageModifier = 0			//fixed damage bonus [double]
+		SalvoModifier = 1.5			//multi shot multiplier [double]
+		//average damage:	single:20	salvo[5]:101	//bD*(sM^(n-1))*0.5
 
-Base damage:	40
-Acuracy mod.:	-
-Damage mod.:	-
-Salvo mod.:	1.5
-Average Damage inflicted
-	20
-	[5] 101
+		//which classes are proficient using this weapon
+		Proficency
+		[
+			//Military
+		]
+		//effects the weapon might inflict on the target
+		StatusEffects
+		[
+			
+		]
+	}
+	{
+		Name = "Wraith Stunner"			//name of the item. used as identifier: NO DUPLICATES
+		Description = "Text"			//description text
+		DamageType = 				//what kind of damage
 
--------------------------------------------------------------------------------------------------------
-Wraith stunner
---------------
-Proficency:	Science
-Status effects:	paralysis	DC60
-Damage type:	energy
+		BaseDamage = 1				//single shot base value [double]
+		AcuracyModifier = 0			//fixed aim bonus [double]
+		DamageModifier = 0			//fixed damage bonus [double]
+		SalvoModifier = 0			//multi shot multiplier [double]
+		//average damage:	single:0.5	salvo[5]:	//bD*(sM^(n-1))*0.5
 
-Base damage:	1
-Acuracy mod.:	-
-Damage mod.:	-
-Salvo mod.:	-
-Average Damage inflicted
-	0.5
-	-
+		//which classes are proficient using this weapon
+		Proficency
+		[
+			Science
+		]
+		//effects the weapon might inflict on the target
+		StatusEffects
+		[
+			//Paralysis, DC60
+		]
+	}
+	{
+		Name = "Wraith Stunn-rifle"			//name of the item. used as identifier: NO DUPLICATES
+		Description = "Text"			//description text
+		DamageType = 				//what kind of damage
 
--------------------------------------------------------------------------------------------------------
-Wraith stunn-rifle
-------------------
-Proficency:	Science
-Status effects:	paralysis	DC60
-Damage type:	energy
+		BaseDamage = 10				//single shot base value [double]
+		AcuracyModifier = 5			//fixed aim bonus [double]
+		DamageModifier = 0			//fixed damage bonus [double]
+		SalvoModifier = 1.1			//multi shot multiplier [double]
+		//average damage:	single:10	salvo[5]:7.3	//bD*(sM^(n-1))*0.5
 
-Base damage:	10
-Acuracy mod.:	+5
-Damage mod.:	-
-Salvo mod.:	1.1
-Average Damage inflicted
-	5
-	[5] 7.3
+		//which classes are proficient using this weapon
+		Proficency
+		[
+			//Science
+		]
+		//effects the weapon might inflict on the target
+		StatusEffects
+		[
+			//Paralysis, DC60
+		]
+	}
+	{
+		Name = "Asuran Pistol"			//name of the item. used as identifier: NO DUPLICATES
+		Description = "Text"			//description text
+		DamageType = 				//what kind of damage
 
--------------------------------------------------------------------------------------------------------
-Asuran Pistol
--------------
-Proficency:	Military
-		Science
-Status effects:	
-Damage type:	energy
+		BaseDamage = 40				//single shot base value [double]
+		AcuracyModifier = -5			//fixed aim bonus [double]
+		DamageModifier = 0			//fixed damage bonus [double]
+		SalvoModifier = 1.7			//multi shot multiplier [double]
+		//average damage:	single:20	salvo[5]:167	//bD*(sM^(n-1))*0.5
 
-Base damage:	<single shot damage>
-Acuracy mod.:	<fix aim bonus>
-Damage mod.:	<fix damage bonus>
-Salvo mod.:	<multi shot multiplier>
-Average Damage inflicted
-	<single shot average>
-	[<shots fired>] <salvo average>
+		//which classes are proficient using this weapon
+		Proficency
+		[
+			//Military
+			//science
+		]
+		//effects the weapon might inflict on the target
+		StatusEffects
+		[
+			
+		]
+	}
+	{
+		Name = "Zat'n'ktel"			//name of the item. used as identifier: NO DUPLICATES
+		Description = "Text"			//description text
+		DamageType = 				//what kind of damage
 
--------------------------------------------------------------------------------------------------------
-Zat'n'ktel
-----------
-Proficency:	Science
-Status effects:	paralysis	DC70
-Damage type:	energy
+		BaseDamage = 20				//single shot base value [double]
+		AcuracyModifier = 0			//fixed aim bonus [double]
+		DamageModifier = 0			//fixed damage bonus [double]
+		SalvoModifier = 1.1			//multi shot multiplier [double]
+		//average damage:	single:10	salvo[5]:14.6	//bD*(sM^(n-1))*0.5
 
-Base damage:	20
-Acuracy mod.:	-
-Damage mod.:	-
-Salvo mod.:	1.1
-Average Damage inflicted
-	10
-	[5] 14.6
+		//which classes are proficient using this weapon
+		Proficency
+		[
+			//Science
+		]
+		//effects the weapon might inflict on the target
+		StatusEffects
+		[
+			//Paralysis, DC70
+		]
+	}
+	{
+		Name = "Ma'tok staff"			//name of the item. used as identifier: NO DUPLICATES
+		Description = "Text"			//description text
+		DamageType = 				//what kind of damage
 
--------------------------------------------------------------------------------------------------------
-Ma'tok
-------
-Proficency:	Science
-Status effects:	
-Damage type:	energy
+		BaseDamage = 100				//single shot base value [double]
+		AcuracyModifier = -5			//fixed aim bonus [double]
+		DamageModifier = 10			//fixed damage bonus [double]
+		SalvoModifier = 0			//multi shot multiplier [double]
+		//average damage:	single:50-10	salvo[5]:	//bD*(sM^(n-1))*0.5
 
-Base damage:	100
-Acuracy mod.:	-5
-Damage mod.:	+10
-Salvo mod.:	-
-Average Damage inflicted
-	50+10
-	-
+		//which classes are proficient using this weapon
+		Proficency
+		[
+			//Science
+			//Military
+		]
+		//effects the weapon might inflict on the target
+		StatusEffects
+		[
+			
+		]
+	}
+]

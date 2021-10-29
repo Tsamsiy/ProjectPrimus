@@ -10,6 +10,7 @@
 #include <math.h>
 
 #include "Items.hpp"
+#include "Maps.hpp"
 
 //inventory objects: references to elements in item lists
 struct ItemInventory
@@ -31,40 +32,63 @@ struct WeaponInventory
 
 struct Ability
 {
-	int STR;
-	int DEX;
-	int CON;
-	int INT;
-	int WIS;
-	int CHA;
+	int STR = 0;
+	int DEX = 0;
+	int CON = 0;
+	int INT = 0;
+	int WIS = 0;
+	int CHA = 0;
 };
-enum FACING
+enum class FACING
 {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
+	UP = 180,   //°
+	DOWN = 0,	//°
+	LEFT = 90,	//°
+	RIGHT = 270	//°
 };
+//used to keep track of what animation is currently running
+enum class AnimState
+{
+	idle,
+	walk,
+	attack,		//may not be interrupted
+	hit			//may not be interrupted
+};
+struct Animation
+{
+	int invervall = 100;				//interval between frames in milliseconds, -1 if no animation frames available
+	std::vector<Gosu::Image> frames;	//list of textures that get periodically updated
+};
+
+
 class Sprite
 {
+private:
 	//unsigned height;
 	//unsigned width;
-	double invervall = -1.0;				//-1 if no animation frames available
-	std::vector<Gosu::Image> idleAnim;		//list of textures that get periodically updated
-	std::vector<Gosu::Image> walkAnim;		//list of textures that get periodically updated
-	std::vector<Gosu::Image> attackAnim;	//list of textures that get periodically updated
-	std::vector<Gosu::Image> hitAnim;		//list of textures that get periodically updated
+	//frames should be drawn facing down per standard
+	Animation idleAnim;			//list of textures that get periodically updated
+	Animation walkAnim;			//list of textures that get periodically updated
+	Animation attackAnim;		//list of textures that get periodically updated
+	Animation hitAnim;			//list of textures that get periodically updated
+	AnimState animState = AnimState::idle;				//used to keep track of what animation is currently running
+	size_t animPointer = 0;					//used as a local bookmark to remember which frame the animation is currently on
+	int animTimer = 0;
 
 public:
 	//unsigned getHeight();
 	//unsigned getWidth();
-	unsigned get_framecount();
+	unsigned get_framecount(AnimState state) const;
 	bool loadSprite(std::string path);
+	void draw(double xPos, double yPos, Gosu::ZPos z = 1, AnimState state = AnimState::idle, double angle = 0.0, double scale = 1.0);
 };
+
+class Map;
 
 class Character
 {
-private:
+public:
+//private:
 	std::string name = "Entity";		//identifier string, displayed name
 
 	uint8_t HP[256];		//Array of stat bars:
@@ -73,14 +97,14 @@ private:
 	uint8_t AC;				//Armor Class: how difficult you are to hit
 	uint8_t AV;				//Armor Value: how much damage is absorbed
 	Ability abilityMods;	//Ability modifiers
-	uint16_t movementspeed;
+	uint16_t movementSpeed;
 
 	std::vector<ItemInventory> items;	//contains references to actual items in different list and additional info
 	std::vector<ArmorInventory> armors;
 	std::vector<WeaponInventory> weapons;
 
 	Sprite texture;				//what your character looks like
-	FACING facing;				//determines which sprite/animation is displayed
+	FACING facing = FACING::DOWN;				//determines which sprite/animation is displayed
 
 	uint16_t xTile;	//Coordinates on the map
 	uint16_t yTile;	//
@@ -90,24 +114,7 @@ private:
 
 public:
 	bool loadCharacterFiles(std::string path);	//loads the characters that play in a world. is called by World::loadWorldFile()
-	bool move(uint16_t x, uint16_t y);		//set x and y coordinate on the map
-};
-
-
-
-
-
-
-
-
-
-//In Arbeit
-//Rassen und Characterklassen?
-class Subcharacter : public Character 
-{
-public:
-	struct Specab	//Special Abilities
-	{
-		int special;
-	};
+	bool move(uint16_t x, uint16_t y);			//set x and y coordinate on the map
+	void update();								//this goes in GameWindow::update() . Calls Character::move()
+	void draw(const Map& map, double xPos, double yPos, double scale = 1.0, AnimState state = AnimState::idle);					//this goes in GameWindow::draw() . Calls Map::getTileCoords()
 };
