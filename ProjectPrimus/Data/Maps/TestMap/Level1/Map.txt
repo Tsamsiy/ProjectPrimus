@@ -30,7 +30,7 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -54,7 +54,7 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -66,13 +66,13 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		
@@ -80,7 +80,7 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -92,19 +92,19 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -116,7 +116,7 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -142,7 +142,7 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -166,7 +166,7 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -180,7 +180,7 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -192,19 +192,19 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -230,7 +230,7 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
@@ -266,13 +266,13 @@ Map
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 		{
 			Type = strd
 			Tile = 1
-			Blocked = 0
+			Blocked = 1
 			Parameter = ""
 		}
 	]

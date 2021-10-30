@@ -41,11 +41,13 @@ struct Ability
 };
 enum class FACING
 {
-	UP = 180,   //°
 	DOWN = 0,	//°
 	LEFT = 90,	//°
+	UP = 180,   //°
 	RIGHT = 270	//°
 };
+FACING incFacing(FACING lhs);
+FACING decFacing(FACING lhs);
 //used to keep track of what animation is currently running
 enum class AnimState
 {
@@ -75,11 +77,14 @@ private:
 	size_t animPointer = 0;					//used as a local bookmark to remember which frame the animation is currently on
 	int animTimer = 0;
 
+	bool loadAnimation(std::string path, std::ifstream& file, Animation& anim, std::streampos start, std::streampos stop);		//loads the animation frames. Called by Sprite::LoadSprite()
+
 public:
 	//unsigned getHeight();
 	//unsigned getWidth();
-	unsigned get_framecount(AnimState state) const;
-	bool loadSprite(std::string path);
+	//unsigned get_framecount(AnimState state) const;
+
+	bool loadSprite(std::string path, std::ifstream& file, std::streampos start, std::streampos stop);			//loads all animations of the sprite. Called by Character::loadCharactersheet()
 	void draw(double xPos, double yPos, Gosu::ZPos z = 1, AnimState state = AnimState::idle, double angle = 0.0, double scale = 1.0);
 };
 
@@ -109,12 +114,19 @@ public:
 	uint16_t xTile;	//Coordinates on the map
 	uint16_t yTile;	//
 
-	bool loadCharacterInfo();		//reads the rest of the characters world-dependant properties. is called by Character::loadCharacterFiles()
-	bool loadCharacterSheet();		//reads character base properties. is called by Character::loadCharacterInfo()
+	bool loadCharacterInfo(std::string path);		//reads the rest of the characters world-dependant properties. is called by Character::loadCharacterFiles()
+	bool loadCharacterSheet(std::string path);		//reads character base properties. is called by Character::loadCharacterInfo()
 
 public:
 	bool loadCharacterFiles(std::string path);	//loads the characters that play in a world. is called by World::loadWorldFile()
-	bool move(uint16_t x, uint16_t y);			//set x and y coordinate on the map
+
+	FACING getFacing();
+	uint16_t getXTile();
+	uint16_t getYTile();
+	
 	void update();								//this goes in GameWindow::update() . Calls Character::move()
+	bool move(FACING dir);						//set x and y coordinate on the map
 	void draw(const Map& map, double xPos, double yPos, double scale = 1.0, AnimState state = AnimState::idle);					//this goes in GameWindow::draw() . Calls Map::getTileCoords()
+	bool drawRotate(const Map& map, double xPos, double yPos, double& angle, unsigned interval = 1.0, double scale = 1.0, FACING dir = FACING::DOWN);					//animates rotating the character. dir: new facing, interval: delta angle per frame
+	bool drawMove(const Map& map, double xPos, double yPos, double& pos, unsigned interval = 1.0, double scale = 1.0, FACING dir = FACING::DOWN);					//animates moving character to neighbouring tile. dir: which tile, interval: delta pixel per frame
 };

@@ -118,7 +118,7 @@ bool Map::tileBlocked(uint16_t x, uint16_t y) const
 		}
 	}
 
-	//return true;
+	return true;
 };
 
 /*/-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -397,7 +397,7 @@ bool Map::parseContent(std::string path, std::ifstream& file, std::streampos sta
 	path = path.substr(0, path.rfind('/'));
 
 	//parse field line by line
-	//first try to find the first to solo variables in the Map field
+	//first try to find the first two solo variables in the Map field
 	do
 	{
 		char in = NULL;
@@ -497,7 +497,7 @@ bool Map::parseContent(std::string path, std::ifstream& file, std::streampos sta
 		return false;
 	}
 	temp.clear();
-	uint32_t blockCount = 0;
+	unsigned blockCount = 0;
 	//empty temporary tile where info is gathered
 	//is blank by default
 	Tile tempTile;

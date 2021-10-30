@@ -1,10 +1,277 @@
 #include "Characters.hpp"
 #include "Parser.hpp"
 
-//#include "Maps.hpp"
+
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-bool Sprite::loadSprite(std::string path)
+FACING incFacing(FACING lhs)
+{
+	switch (lhs)
+	{
+	case FACING::DOWN:
+		return FACING::LEFT;
+		break;
+
+	case FACING::LEFT:
+		return FACING::UP;
+		break;
+
+	case FACING::UP:
+		return FACING::RIGHT;
+		break;
+
+	case FACING::RIGHT:
+		return FACING::DOWN;
+		break;
+	}
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+FACING decFacing(FACING lhs)
+{
+	switch (lhs)
+	{
+	case FACING::DOWN:
+		return FACING::RIGHT;
+		break;
+
+	case FACING::LEFT:
+		return FACING::DOWN;
+		break;
+
+	case FACING::UP:
+		return FACING::LEFT;
+		break;
+
+	case FACING::RIGHT:
+		return FACING::UP;
+		break;
+	}
+}
+
+//#######################################################################################################################################################################
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+bool Sprite::loadAnimation(std::string path, std::ifstream& file, Animation& anim, std::streampos start, std::streampos stop)
+{
+	bool parseOk = false;
+	bool gotInterval = false;
+	std::string temp;
+	std::streampos contentStart;
+	std::streampos contentStop;
+
+	//construct new local path: remove file part of last path
+	path = path.substr(0, path.rfind('/'));
+
+	//parse field line by line
+	//first try to find the solo interval variable in the Animation field
+	do
+	{
+		char in = NULL;
+		//read one line
+		do
+		{
+			in = fileGetNoComments(file);
+			if (in != '\n')
+			{
+				temp += in;
+			}
+		} while ((in != '\n') && (file.tellg() < stop));
+
+		//remove unwanted chars
+		removeFormatting(temp);
+
+		//if string is not empty
+		if (!temp.empty())
+		{
+			//std::cout << temp << "\n";
+
+			//found keyword
+			if (temp.find("Interval") != std::string::npos)
+			{
+				//extract value
+				temp = temp.substr(temp.find('=') + 1);
+				//std::cout << temp << "\n";
+
+				if (!strParseInt(temp, anim.invervall))
+				{
+					std::cout << "\t\tSyntax error: unknown value of \"Interval\" in animation filed\n";
+					//skip this one
+					return false;
+				}
+				else
+				{
+					gotInterval = true;
+				}
+			}
+		}
+
+		temp.clear();
+	}
+	while ((file.tellg() < stop) && !gotInterval);
+	//already at the end of the Animation field and one of those is missing
+	if (!gotInterval)
+	{
+		std::cout << "\t\tMissing variable in animation field\n";
+		std::cout << "\t\t\tMissing elements:";
+		if (!gotInterval)
+		{
+			std::cout << "  \"Interval = <int>\"";
+		}
+		std::cout << "\n";
+		return false;
+	}
+
+	//move on to parsing the frames
+	//first try to find the AnimationFiles list
+	if (!seekField(file, "AnimationFiles", '[', ']', contentStart, contentStop))
+	{
+		//main definitions are missing in the document, so skip it
+		std::cout << "\t\tMissing data list \"AnimationFiles\"[...]\n";
+		return false;
+	}
+	temp.clear();
+	unsigned count = 0;
+
+	//parse field line by line
+	do
+	{
+		char in = NULL;
+		//read one line
+		do
+		{
+			in = fileGetNoComments(file);
+			if (in != '\n')
+			{
+				temp += in;
+			}
+		} while ((in != '\n') && (file.tellg() < contentStop));
+
+		//remove unwanted chars
+		removeFormatting(temp);
+
+		//if string is not empty
+		if (!temp.empty())
+		{
+			//std::cout << "\t\tLoading tile texture: " << path + "/" + temp << "\n";
+
+			//only care about the file part of the path
+			//paths can also be written without formatting
+			strExtractByDelim(temp, false, '<', '>');
+
+			//check file validity via tempFile to avoid exception from Gosu
+			//if file opens, it can be loaded into Gosu::Image
+			std::ifstream tempFile(path + "/" + temp);
+			//try to open the file
+			if (tempFile)
+			{
+				tempFile.close();
+
+				Gosu::Image textureFile(path + "/" + temp);
+				anim.frames.push_back(textureFile);
+
+				//std::cout << "\t\tTexture loaded: " << path + "/" + temp << "\n";
+				count++;
+				parseOk = true;
+			}
+			else
+			{
+				std::cout << "\t\tUnable to load texture: " << path + "/" + temp << "\n";
+			}
+		}
+
+		temp.clear();
+
+	} while (file.tellg() < contentStop);
+
+	if (parseOk)
+	{
+		std::cout << "\t\tParsed " << count << " Textures.\n";
+	}
+
+	return parseOk;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+bool Sprite::loadSprite(std::string path, std::ifstream& file, std::streampos start, std::streampos stop)
+{
+	std::string temp;
+	std::streampos blockStart;
+	std::streampos blockStop;
+
+	//try to find the Animation field.
+	if (!seekField(file, "IdleAnimation", '{', '}', blockStart, blockStop))
+	{
+		//main definitions are missing in the document, so skip it
+		std::cout << "\t\tMissing data field \"IdleAnimation\"{...} in \"Sprite\"{...}\n";
+		return false;
+	}
+	//try to load that animation
+	if (!this->loadAnimation(path, file, this->idleAnim, blockStart, blockStop))
+	{
+		//error while loading animation
+		std::cout << "\t\tInvalid or missing Animation definitions in \"Sprite/IdleAnimation\"{...}\n";
+		return false;
+	}
+	//return to start of Sprite field
+	file.seekg(start);
+
+	//try to find the Animation field.
+	if (!seekField(file, "WalkAnimation", '{', '}', blockStart, blockStop))
+	{
+		//main definitions are missing in the document, so skip it
+		std::cout << "\t\tMissing data field \"WalkAnimation\"{...} in \"Sprite\"{...}\n";
+		return false;
+	}
+	//try to load that animation
+	if (!this->loadAnimation(path, file, this->walkAnim, blockStart, blockStop))
+	{
+		//error while loading animation
+		std::cout << "\t\tInvalid or missing Animation definitions in \"Sprite/WalkAnimation\"{...}\n";
+		return false;
+	}
+	//return to start of Sprite field
+	file.seekg(start);
+
+	//try to find the Animation field.
+	if (!seekField(file, "AttackAnimation", '{', '}', blockStart, blockStop))
+	{
+		//main definitions are missing in the document, so skip it
+		std::cout << "\t\tMissing data field \"AttackAnimation\"{...} in \"Sprite\"{...}\n";
+		return false;
+	}
+	//try to load that animation
+	if (!this->loadAnimation(path, file, this->attackAnim, blockStart, blockStop))
+	{
+		//error while loading animation
+		std::cout << "\t\tInvalid or missing Animation definitions in \"Sprite/AttackAnimation\"{...}\n";
+		return false;
+	}
+	//return to start of Sprite field
+	file.seekg(start);
+
+	//try to find the Animation field.
+	if (!seekField(file, "HitAnimation", '{', '}', blockStart, blockStop))
+	{
+		//main definitions are missing in the document, so skip it
+		std::cout << "\t\tMissing data field \"HitAnimation\"{...} in \"Sprite\"{...}\n";
+		return false;
+	}
+	//try to load that animation
+	if (!this->loadAnimation(path, file, this->hitAnim, blockStart, blockStop))
+	{
+		//error while loading animation
+		std::cout << "\t\tInvalid or missing Animation definitions in \"Sprite/HitAnimation\"{...}\n";
+		return false;
+	}
+	
+	//skip to end of Sprite field
+	file.seekg(stop);
+
+	//all animation fields need at least one frame
+	return true;
+};
+//temporary version saves only to idleAnim
+/*bool Sprite::loadSprite(std::string path)
 {
 	std::ifstream tempFile(path);
 	//try to open the file
@@ -23,7 +290,7 @@ bool Sprite::loadSprite(std::string path)
 		std::cout << "\t\tUnable to load texture: " << path << "\n";
 	}
 	return false;
-};
+};*/
 
 void Sprite::draw(double xPos, double yPos, Gosu::ZPos z, AnimState state, double angle, double scale)
 {
@@ -186,6 +453,24 @@ void Sprite::draw(double xPos, double yPos, Gosu::ZPos z, AnimState state, doubl
 //#######################################################################################################################################################################
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+FACING Character::getFacing()
+{
+	return this->facing;
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+uint16_t Character::getXTile()
+{
+	return this->xTile;
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+uint16_t Character::getYTile()
+{
+	return this->yTile;
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void Character::draw(const Map& map, double xPos, double yPos, double scale, AnimState state)
 {
 	double x = 0.0;
@@ -201,34 +486,203 @@ void Character::draw(const Map& map, double xPos, double yPos, double scale, Ani
 	this->texture.draw((x + xPos), (y + yPos), 1, state, (double)this->facing, scale);
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-bool Character::loadCharacterFiles(std::string path)	//Nur vorübergehend --> wird ersetzt durch parcing
+bool Character::drawRotate(const Map& map, double xPos, double yPos, double& angle, unsigned interval, double scale, FACING dir)
 {
-	if (true)			//Laden des Bildes für den Character
+	//already there
+	if (dir == this->facing)
 	{
-		this->texture.loadSprite("TestCharacter.png");
 		return true;
+	}
+
+	double x = 0.0;
+	double y = 0.0;
+	bool rotDir = true;	//true is +, rotRight
+
+	//get the coordinates of the upper left corner of the tile the character is standing on
+	map.getTileCoords(this->xTile, this->yTile, x, y, scale);
+
+	//calculate midpoint of the tile
+	x += (map.getTileWidth() / 2 * scale);
+	y += (map.getTileHeight() / 2 * scale);
+
+	//find which way is fastest
+	if (this->facing == decFacing(dir))
+	{
+		rotDir = true;
+	}
+	if (this->facing == incFacing(dir))
+	{
+		rotDir = false;
+	}
+
+	//std::cout << angle << "\n";
+	this->texture.draw((x + xPos), (y + yPos), 1, AnimState::walk, angle, scale);
+	if (rotDir)
+	{
+		angle = angle + interval;
 	}
 	else
 	{
+		angle = angle - interval;
+	}
+
+	if (angle >= 360)
+	{
+		angle = 0;
+	}
+	if (angle < 0)
+	{
+		angle = 360;
+	}
+
+	//reached destination
+	//need this tollerance buffer instaed of angle == (double)dir for intervals that are not multiples of the full angles
+	if ((angle <= (double)dir + interval) && (angle >= (double)dir - interval))
+	{
+		this->facing = dir;
+		return true;
+	}
+	return false;
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+bool Character::drawMove(const Map& map, double xPos, double yPos, double& pos, unsigned interval, double scale, FACING dir)
+{
+	double x = 0.0;
+	double y = 0.0;
+
+	//get the coordinates of the upper left corner of the tile the character is standing on
+	map.getTileCoords(this->xTile, this->yTile, x, y, scale);
+
+	//calculate midpoint of the tile
+	x += (map.getTileWidth() / 2 * scale);
+	y += (map.getTileHeight() / 2 * scale);
+
+	//std::cout << pos << "\n";
+	switch (dir)
+	{
+		case FACING::DOWN:
+			this->texture.draw((x + xPos), (y + yPos + pos), 1, AnimState::walk, (double)dir, scale);
+
+			//reached destination
+			//need this tollerance buffer instaed of angle == (double)dir for intervals that are not multiples of the full angles
+			if (pos >= map.getTileHeight() * scale)
+			{
+				this->yTile++;
+				pos = 0;
+				return true;
+			}
+		break;
+
+		case FACING::LEFT:
+			this->texture.draw((x + xPos - pos), (y + yPos), 1, AnimState::walk, (double)dir, scale);
+
+			//reached destination
+			//need this tollerance buffer instaed of angle == (double)dir for intervals that are not multiples of the full angles
+			if (pos >= map.getTileWidth() * scale)
+			{
+				this->xTile--;
+				pos = 0;
+				return true;
+			}
+		break;
+
+		case FACING::UP:
+			this->texture.draw((x + xPos), (y + yPos - pos), 1, AnimState::walk, (double)dir, scale);
+
+			//reached destination
+			//need this tollerance buffer instaed of angle == (double)dir for intervals that are not multiples of the full angles
+			if (pos >= map.getTileHeight() * scale)
+			{
+				this->yTile--;
+				pos = 0;
+				return true;
+			}
+		break;
+
+		case FACING::RIGHT:
+			this->texture.draw((x + xPos + pos), (y + yPos), 1, AnimState::walk, (double)dir, scale);
+
+			//reached destination
+			//need this tollerance buffer instaed of angle == (double)dir for intervals that are not multiples of the full angles
+			if (pos >= map.getTileWidth() * scale)
+			{
+				this->xTile++;
+				pos = 0;
+				return true;
+			}
+		break;
+	}
+	pos++;
+
+	return false;
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+bool Character::loadCharacterSheet(std::string path)
+{
+	bool parseOk = false;
+	std::string temp;
+	std::streampos start;
+	std::streampos stop;
+	bool gotSprite = false;
+
+	std::cout << "Reading character sheet: \"" << path << "\n";
+
+	//open file
+	std::ifstream file(path);
+	if (!file)
+	{
+		std::cout << "\tFile not found: \"" << path << "\n";
 		return false;
 	}
+
+	//!!! Parse other stuff like class and race here first !!!
+
+	//try to find the Sprite field. it contains the animation fields
+	if (!seekField(file, "Sprite", '{', '}', start, stop))
+	{
+		//main definitions are missing in the document, so skip it
+		std::cout << "\t\tMissing data field \"Sprite\"{...}\n";
+		return false;
+	}
+	//try to load the sprite
+	if (this->texture.loadSprite(path, file, start, stop))
+	{
+		gotSprite = true;
+		std::cout << "\t\tSprite loaded\n";
+	}
+	else
+	{
+		std::cout << "\t\tUnable to parse Sprite in character sheet: \"" << path << "\n";
+		return false;
+	}
+	
+
+	file.close();
+	return parseOk;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bool Character::loadCharacterFiles(std::string path)
+{
+	return this->loadCharacterSheet(path);
 }
 
 
-bool Character::move(uint16_t x, uint16_t y)
+void Character::update()
 {
 	uint16_t moveactions = this->movementSpeed;		//Aktuelle Bewegungsrate
 
@@ -285,5 +739,4 @@ bool Character::move(uint16_t x, uint16_t y)
 			}
 		}
 	}
-	return true;
 }

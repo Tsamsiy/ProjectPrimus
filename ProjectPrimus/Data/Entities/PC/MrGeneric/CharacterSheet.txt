@@ -8,6 +8,66 @@ Character
 
 	Sprite
 	{
-		
+		IdleAnimation
+		{
+			Interval = 100		//time between frames in milliseconds, -1 for still frame.  [int]
+
+			AnimationFiles
+			[
+				Textures/idle_a1.png
+				Textures/idle_a2.png
+				Textures/idle_a3.png
+				Textures/idle_a4.png
+				Textures/idle_a5.png
+				Textures/idle_a6.png
+				Textures/idle_a7.png
+				Textures/idle_a8.png
+				Textures/idle_a9.png
+				Textures/idle_a10.png
+				Textures/idle_a11.png
+				Textures/idle_a12.png
+			]
+		}
+
+		WalkAnimation
+		{
+			Interval = 50		//time between frames in milliseconds, -1 for still frame. [int]
+
+			AnimationFiles
+			[
+				Textures/walk_a1.png
+				Textures/walk_a2.png
+				Textures/walk_a3.png
+				Textures/walk_a4.png
+				Textures/walk_a5.png
+				Textures/walk_a6.png
+				Textures/walk_a7.png
+				Textures/walk_a8.png
+				Textures/walk_a9.png
+				Textures/walk_a10.png
+				Textures/walk_a11.png
+				Textures/walk_a12.png
+			]
+		}
+
+		AttackAnimation
+		{
+			Interval = -1		//time between frames in milliseconds, -1 for still frame. [int]
+
+			AnimationFiles
+			[
+				Textures/idle_a1.png
+			]
+		}
+
+		HitAnimation
+		{
+			Interval = -1		//time between frames in milliseconds, -1 for still frame. [int]
+
+			AnimationFiles
+			[
+				Textures/idle_a1.png
+			]
+		}
 	}
 }
