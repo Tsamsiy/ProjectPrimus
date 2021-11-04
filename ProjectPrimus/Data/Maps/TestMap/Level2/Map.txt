@@ -10,9 +10,15 @@ enum TileType
 //list of tiles. will be referenced by map content:
 //referenced chronologically, if the value of Tile is not a number, a blank tile is added.
 Tiles
-[
-	Tiles/floor.png
-]
+{
+	Height = 64
+	Width = 64
+
+	Textures
+	[
+		Tiles/floor.png
+	]
+}
 
 Map
 {

@@ -604,7 +604,6 @@ bool Character::drawMove(const Map& map, double xPos, double yPos, double& pos, 
 			this->texture.draw((x + xPos + pos), (y + yPos), 1, AnimState::walk, (double)dir, scale);
 
 			//reached destination
-			//need this tollerance buffer instaed of angle == (double)dir for intervals that are not multiples of the full angles
 			if (pos >= map.getTileWidth() * scale)
 			{
 				this->xTile++;
@@ -638,6 +637,7 @@ bool Character::loadCharacterSheet(std::string path)
 	}
 
 	//!!! Parse other stuff like class and race here first !!!
+	parseOk = true;
 
 	//try to find the Sprite field. it contains the animation fields
 	if (!seekField(file, "Sprite", '{', '}', start, stop))

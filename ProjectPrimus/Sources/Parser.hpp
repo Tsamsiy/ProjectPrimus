@@ -257,7 +257,7 @@ static bool seekField(std::ifstream& file, const std::string& field, const char 
 		if (!temp.empty())
 		{
 			//the line contains the keyword
-			if (temp.find(field) != std::string::npos)
+			if (temp.find(field) != std::string::npos)//(temp == field)
 			{
 				//mark beginning of data field
 				while (fileGetNoComments(file) != delimA)
@@ -267,6 +267,7 @@ static bool seekField(std::ifstream& file, const std::string& field, const char 
 						return false;
 					}
 				}
+				//mark beginning of data field
 				start = file.tellg();
 				//mark end of data field
 				if (!skipBlockBracket(file, delimB))
@@ -288,11 +289,17 @@ static bool seekField(std::ifstream& file, const std::string& field, const char 
 
 				//std::cout << "Detected field: \"" << field << "\"" << delimA << "..." << delimB << "\n";
 				found = true;
+				//field starts with the correct delimiter
+				if (fileGetNoComments(file) == delimA)
+				{
+					
+				}
 			}
 		}
 
 		temp.clear();
-	} while ((found == false) && (!file.eof()));
+	}
+	while ((found == false) && (!file.eof()));
 
 	return found;
 }

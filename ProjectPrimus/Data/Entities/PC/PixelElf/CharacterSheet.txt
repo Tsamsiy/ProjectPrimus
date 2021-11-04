@@ -1,0 +1,58 @@
+Character
+{
+	//Eric the generic cleric
+	Name = "PixelElf"
+
+	Race = 
+	Class = 
+
+	Sprite
+	{
+		IdleAnimation
+		{
+			Interval = 100		//time between frames in milliseconds, -1 for still frame.  [int]
+
+			AnimationFiles
+			[
+				Textures/elf_m_idle_anim_f0.png
+				Textures/elf_m_idle_anim_f1.png
+				Textures/elf_m_idle_anim_f2.png
+				Textures/elf_m_idle_anim_f3.png
+
+			]
+		}
+
+		WalkAnimation
+		{
+			Interval = 50		//time between frames in milliseconds, -1 for still frame. [int]
+
+			AnimationFiles
+			[
+				Textures/elf_m_run_anim_f0.png
+				Textures/elf_m_run_anim_f1.png
+				Textures/elf_m_run_anim_f2.png
+				Textures/elf_m_run_anim_f3.png
+			]
+		}
+
+		AttackAnimation
+		{
+			Interval = -1		//time between frames in milliseconds, -1 for still frame. [int]
+
+			AnimationFiles
+			[
+				Textures/elf_m_idle_anim_f0.png
+			]
+		}
+
+		HitAnimation
+		{
+			Interval = -1		//time between frames in milliseconds, -1 for still frame. [int]
+
+			AnimationFiles
+			[
+				Textures/elf_m_hit_anim_f0.png
+			]
+		}
+	}
+}

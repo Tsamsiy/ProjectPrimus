@@ -10,16 +10,23 @@ enum TileType
 //list of tiles. will be referenced by map content:
 //referenced chronologically, if the value of Tile is not a number, a blank tile is added.
 Tiles
-[
-	<Tiles/floor.png>
-	<Tiles/wall.png>
-	//<Tiles/floor3.png>
-	//<Tiles/floor4.png>
-]
+{
+	Height = 64
+	Width = 64
+
+	Textures
+	[
+		<Tiles/floor.png>
+		<Tiles/floor_dark.png>
+		<Tiles/wall.png>
+		//<Tiles/floor3.png>
+		//<Tiles/floor4.png>
+	]
+}
 
 Map
 {
-	Rows = 5	//y
+	Rows = 6	//y
 	Cols = 8	//x
 
 	//contains tile definitions.
@@ -91,13 +98,13 @@ Map
 		}
 		{
 			Type = strd
-			Tile = 1
+			Tile = 2
 			Blocked = 1
 			Parameter = ""
 		}
 		{
 			Type = strd
-			Tile = 1
+			Tile = 2
 			Blocked = 1
 			Parameter = ""
 		}
@@ -179,7 +186,7 @@ Map
 		//fourth row
 		{
 			Type = strd
-			Tile = 1
+			Tile = 2
 			Blocked = 1
 			Parameter = ""
 		}
@@ -197,13 +204,13 @@ Map
 		}
 		{
 			Type = strd
-			Tile = 1
+			Tile = 2
 			Blocked = 1
 			Parameter = ""
 		}
 		{
 			Type = strd
-			Tile = 1
+			Tile = 2
 			Blocked = 1
 			Parameter = ""
 		}
@@ -261,6 +268,56 @@ Map
 			Type = strd
 			Tile = 0
 			Blocked = 0
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 2
+			Blocked = 1
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 2
+			Blocked = 1
+			Parameter = ""
+		}
+
+		//sixth row
+		{
+			Type = strd
+			Tile = 1
+			Blocked = 1
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 2
+			Blocked = 1
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 2
+			Blocked = 1
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 2
+			Blocked = 1
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 2
+			Blocked = 1
+			Parameter = ""
+		}
+		{
+			Type = strd
+			Tile = 2
+			Blocked = 1
 			Parameter = ""
 		}
 		{

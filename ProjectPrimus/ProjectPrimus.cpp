@@ -18,6 +18,7 @@
 
 std::string worldFolder = "Data/Maps/TestMap";
 World world;
+unsigned currentLevel = 0;
 
 Character entity;
 bool rotate = false;
@@ -28,6 +29,8 @@ double tempPos = 0.0;
 bool animDone = true;
 
 double mapScale = 2.0;
+double maxScale = 5.0;
+double minScale = 0.5;
 int16_t xPos = 0;
 int16_t yPos = 0;
 int16_t dx = 0;
@@ -63,7 +66,7 @@ public:
 		if (input().down(Gosu::MS_LEFT))
 		{
 			//draw map
-			world.maps.at(0).drawMap((xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), 0, mapScale);
+			world.maps.at(currentLevel).drawMap((xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), 0, mapScale);
 			//draw character sprite
 			//character is moving or rotating
 			if (!animDone)
@@ -98,9 +101,9 @@ public:
 						}
 
 						//move if the tile is free/exists
-						if (!world.maps.at(0).tileBlocked(toXTile, toYTile))
+						if (!world.maps.at(currentLevel).tileBlocked(toXTile, toYTile))
 						{
-							move = !entity.drawMove(world.maps.at(0), (xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), tempPos, 4, mapScale, moveDir);
+							move = !entity.drawMove(world.maps.at(currentLevel), (xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), tempPos, 4, mapScale, moveDir);
 						}
 						else
 						{
@@ -110,20 +113,20 @@ public:
 				}
 				if (rotate)
 				{
-					rotate = !entity.drawRotate(world.maps.at(0), (xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), tempAngle, 4, mapScale, moveDir);
+					rotate = !entity.drawRotate(world.maps.at(currentLevel), (xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), tempAngle, 4, mapScale, moveDir);
 				}
 			}
 			//character is still
 			else
 			{
-				entity.draw(world.maps.at(0), (xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), mapScale);
+				entity.draw(world.maps.at(currentLevel), (xPos + (input().mouse_x() - dx)), (yPos + (input().mouse_y() - dy)), mapScale);
 			}
 		}
 		//while dropped
 		else
 		{
 			//draw map
-			world.maps.at(0).drawMap(xPos, yPos, 0, mapScale);
+			world.maps.at(currentLevel).drawMap(xPos, yPos, 0, mapScale);
 			//draw character sprite
 			//character is moving or rotating
 			if (!animDone)
@@ -158,9 +161,9 @@ public:
 						}
 
 						//move if the tile is free/exists
-						if (!world.maps.at(0).tileBlocked(toXTile, toYTile))
+						if (!world.maps.at(currentLevel).tileBlocked(toXTile, toYTile))
 						{
-							move = !entity.drawMove(world.maps.at(0), xPos, yPos, tempPos, 4, mapScale, moveDir);
+							move = !entity.drawMove(world.maps.at(currentLevel), xPos, yPos, tempPos, 4, mapScale, moveDir);
 						}
 						else
 						{
@@ -170,13 +173,13 @@ public:
 				}
 				if (rotate)
 				{
-					rotate = !entity.drawRotate(world.maps.at(0), xPos, yPos, tempAngle, 4, mapScale, moveDir);
+					rotate = !entity.drawRotate(world.maps.at(currentLevel), xPos, yPos, tempAngle, 4, mapScale, moveDir);
 				}
 			}
 			//character is still
 			else
 			{
-				entity.draw(world.maps.at(0), xPos, yPos, mapScale);
+				entity.draw(world.maps.at(currentLevel), xPos, yPos, mapScale);
 			}
 		}
 
@@ -317,17 +320,17 @@ public:
 		if (input().down(Gosu::KB_I))
 		{
 			mapScale += 0.1;
-			if (mapScale > 2.5)
+			if (mapScale > maxScale)
 			{
-				mapScale = 2.5;
+				mapScale = maxScale;
 			}
 		}
 		if (input().down(Gosu::KB_O))
 		{
 			mapScale -= 0.1;
-			if (mapScale < 0.5)
+			if (mapScale < minScale)
 			{
-				mapScale = 0.5;
+				mapScale = minScale;
 			}
 		}
 	}
@@ -359,22 +362,10 @@ int main()
 		std::cout << "\tWorld loaded: \"" << worldFolder << "\"\n";
 	}
 
-	/*entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a1.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a2.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a3.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a4.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a5.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a6.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a7.png");
-
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a8.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a9.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a10.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a11.png");
-	entity.texture.loadSprite("Data/Entities/PC/MrGeneric/Textures/idle_a12.png");*/
+	
 	if (!entity.loadCharacterSheet("Data/Entities/PC/MrGeneric/CharacterSheet.txt"))
 	{
-		//while (true);
+		while (true);
 	}
 	entity.xTile = 3;
 	entity.yTile = 2;

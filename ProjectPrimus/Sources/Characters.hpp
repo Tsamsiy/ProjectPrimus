@@ -58,7 +58,7 @@ enum class AnimState
 };
 struct Animation
 {
-	int invervall = 100;				//interval between frames in milliseconds, -1 if no animation frames available
+	int invervall = -1;				//interval between frames in milliseconds, -1 if no animation frames available
 	std::vector<Gosu::Image> frames;	//list of textures that get periodically updated
 };
 

@@ -181,27 +181,16 @@ bool Item::loadSTDItemFile(std::string path)
 					temp = temp.substr(temp.find('=') + 1);
 					//std::cout << temp << "\n";
 
-					unsigned num = 0;
-					//convert to integer
-					for (int i = 0; i < temp.size(); i++)
+					if (!strParseUnsigned(temp, tempItem.uses))
 					{
-						//this will ignore any char that is not a number
-						//unsigned numbers only
-						if ((temp.at(i) >= '0') && (temp.at(i) <= '9'))
-						{
-							num *= 10;
-							num += temp.at(i) - '0';
-						}
-						else
-						{
-							std::cout << "\t\tSyntax error: unknown value of \"Uses\" in \"Items\"[" << blockCount << "]\n";
-							//skip this one
-							return false;
-						}
+						std::cout << "\t\tSyntax error: unknown value of \"AC\" in \"Armors\"[" << blockCount << "]\n";
+						//skip this one
+						return false;
 					}
-					
-					tempItem.uses = num;
-					gotUses = true;
+					else
+					{
+						gotUses = true;
+					}
 				}
 				
 			}
@@ -365,7 +354,8 @@ bool Item::loadDEFItemFile(std::string path)
 					temp = temp.substr(temp.find('=') + 1);
 					//std::cout << temp << "\n";
 
-					if (!strParseInt(temp, (int&)tempItem.AC))
+					int tempNum = 0;
+					if (!strParseInt(temp, tempNum))
 					{
 						std::cout << "\t\tSyntax error: unknown value of \"AC\" in \"Armors\"[" << blockCount << "]\n";
 						//skip this one
@@ -373,6 +363,7 @@ bool Item::loadDEFItemFile(std::string path)
 					}
 					else
 					{
+						tempItem.AC = (int8_t)tempNum;
 						gotAC = true;
 					}
 				}
@@ -390,11 +381,16 @@ bool Item::loadDEFItemFile(std::string path)
 						//get the wanted element
 						std::string elem = strAccessCSV(temp, i);
 
-						if (!strParseUnsigned(elem, (unsigned&)tempItem.AV[i]))
+						unsigned tempNum = 0;
+						if (!strParseUnsigned(elem, tempNum))
 						{
 							std::cout << "\t\tSyntax error: unknown value of \"AV\"[" << i << "] in \"Armors\"[" << blockCount << "]\n";
 							//skip this one
 							return false;
+						}
+						else
+						{
+							tempItem.AV[i] = (uint8_t)tempNum;
 						}
 					}
 					gotAV = true;
@@ -426,11 +422,11 @@ bool Item::loadDEFItemFile(std::string path)
 			}
 			if (!gotAC)
 			{
-				std::cout << "  \"AC = <int>\"";
+				std::cout << "  \"AC = <int8_t>\"";
 			}
 			if (!gotAV)
 			{
-				std::cout << "  \"AV = [<uint>, <uint>]\"";
+				std::cout << "  \"AV = [<uint8_t>, <uint8_t>]\"";
 			}
 			std::cout << "\n";
 			return false;

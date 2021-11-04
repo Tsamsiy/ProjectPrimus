@@ -269,7 +269,7 @@ bool Map::loadMapFile(std::string path)
 	}
 
 	//try to find the Tiles[...] data list
-	if (seekField(file, "Tiles", '[', ']', start, stop))
+	if (seekField(file, "Tiles", '{', '}', start, stop))
 	{
 		//try to load content of tile list
 		//returns true if at least one tile is loaded
@@ -277,7 +277,7 @@ bool Map::loadMapFile(std::string path)
 		if (!this->parseTiles(path, file, start, stop))
 		{
 			file.close();
-			std::cout << "\t\tNo valid tiles in data list \"Tiles\"[...]\n";
+			std::cout << "\t\tNo valid tiles in data list \"Tiles\"{...}\n";
 			return false;
 		}
 	}
@@ -285,7 +285,7 @@ bool Map::loadMapFile(std::string path)
 	{
 		//skip content parsing if there are no tiles
 		file.close();
-		std::cout << "\t\tMissing data list \"Tiles\"[...]\n";
+		std::cout << "\t\tMissing data field \"Tiles\"{...}\n";
 		return false;
 	}
 	//try to find the Map{...} data field
@@ -317,13 +317,18 @@ bool Map::loadMapFile(std::string path)
 bool Map::parseTiles(std::string path, std::ifstream& file, std::streampos start, std::streampos stop)
 {
 	bool parseOk = false;
+	bool gotHeight = false;
+	bool gotWidth = false;
 	std::string temp;
+	std::streampos contentStart;
+	std::streampos contentStop;
 	unsigned count = 0;
 
 	//construct new local path: remove file part of last path
 	path = path.substr(0, path.rfind('/'));
 
 	//parse field line by line
+	//first try to find the first two solo variables in the Map field
 	do
 	{
 		char in = NULL;
@@ -335,7 +340,99 @@ bool Map::parseTiles(std::string path, std::ifstream& file, std::streampos start
 			{
 				temp += in;
 			}
-		} while ((in != '\n') && (file.tellg() < stop));
+		} 
+		while((in != '\n') && (file.tellg() < stop));
+
+		//remove unwanted chars
+		removeFormatting(temp);
+
+		//if string is not empty
+		if (!temp.empty())
+		{
+			//std::cout << temp << "\n";
+
+			//found keyword
+			if (temp.find("Height") != std::string::npos)
+			{
+				//extract value
+				temp = temp.substr(temp.find('=') + 1);
+				//std::cout << temp << "\n";
+
+				if (!strParseUnsigned(temp, this->height))
+				{
+					std::cout << "\t\tSyntax error: unknown value of \"Height\" in \"Tiles\"{...}\n";
+					//skip this one
+					return false;
+				}
+				else
+				{
+					//std::cout << this->height << "\n";
+					gotHeight = true;
+				}
+			}
+			//found keyword
+			if (temp.find("Width") != std::string::npos)
+			{
+				//extract value
+				temp = temp.substr(temp.find('=') + 1);
+				//std::cout << temp << "\n";
+
+				if (!strParseUnsigned(temp, this->width))
+				{
+					std::cout << "\t\tSyntax error: unknown value of \"Width\" in \"Tiles\"{...}\n";
+					//skip this one
+					return false;
+				}
+				else
+				{
+					//std::cout << this->width << "\n";
+					gotWidth = true;
+				}
+			}
+		}
+
+		temp.clear();
+	}
+	while ((file.tellg() < stop) && (!gotWidth || !gotHeight));
+	//already at the end of the Map field and one of those is missing
+	if (!gotWidth || !gotHeight)
+	{
+		std::cout << "\t\tMissing variable in \"Tiles\"{...}\n";
+		std::cout << "\t\t\tMissing elements:";
+		if (!gotWidth)
+		{
+			std::cout << "  \"Width = <unsigned>\"";
+		}
+		if (!gotHeight)
+		{
+			std::cout << "  \"Height = <unsigned>\"";
+		}
+		std::cout << "\n";
+		return false;
+	}
+
+	//move on to parsing the Tile textures
+	//first try to find the Textures list
+	if (!seekField(file, "Textures", '[', ']', contentStart, contentStop))
+	{
+		//main definitions are missing in the document, so skip it
+		std::cout << "\t\tMissing data list \"Textures\"[...] in \"Tiles\"{...}\n";
+		return false;
+	}
+	temp.clear();
+
+	do
+	{
+		char in = NULL;
+		//read one line
+		do
+		{
+			in = fileGetNoComments(file);
+			if (in != '\n')
+			{
+				temp += in;
+			}
+		} while ((in != '\n') && (file.tellg() < contentStop));
 
 		//remove unwanted chars
 		removeFormatting(temp);
@@ -371,10 +468,9 @@ bool Map::parseTiles(std::string path, std::ifstream& file, std::streampos start
 		}
 
 		temp.clear();
-
 	}
-	while (file.tellg() < stop);
-
+	while (file.tellg() < contentStop);
+	
 	if (parseOk)
 	{
 		std::cout << "\t\tParsed " << count << " Textures.\n";
@@ -427,21 +523,18 @@ bool Map::parseContent(std::string path, std::ifstream& file, std::streampos sta
 				temp = temp.substr(temp.find('=') + 1);
 				//std::cout << temp << "\n";
 
-				int num = 0;
-				//convert to integer
-				for (int i = 0; i < temp.size(); i++)
+				unsigned tempNum = 0;
+				if (!strParseUnsigned(temp, tempNum))
 				{
-					//this will ignore any char that is not a number
-					//unsigned numbers only
-					if ((temp.at(i) >= '0') && (temp.at(i) <= '9'))
-					{
-						num *= 10;
-						num += temp.at(i) - '0';
-					}
+					std::cout << "\t\tSyntax error: unknown value of \"Rows\" in \"Maps\"{...}\n";
+					//skip this one
+					return false;
 				}
-				//std::cout << num << "\n";
-				this->rows = num;
-				gotRows = true;
+				else
+				{
+					this->rows = (uint16_t)tempNum;
+					gotRows = true;
+				}
 			}
 			//found keyword
 			if (temp.find("Cols") != std::string::npos)
@@ -450,21 +543,18 @@ bool Map::parseContent(std::string path, std::ifstream& file, std::streampos sta
 				temp = temp.substr(temp.find('=') + 1);
 				//std::cout << temp << "\n";
 
-				int num = 0;
-				//convert to integer
-				for (int i = 0; i < temp.size(); i++)
+				unsigned tempNum = 0;
+				if (!strParseUnsigned(temp, tempNum))
 				{
-					//this will ignore any char that is not a number
-					//unsigned numbers only
-					if ((temp.at(i) >= '0') && (temp.at(i) <= '9'))
-					{
-						num *= 10;
-						num += temp.at(i) - '0';
-					}
+					std::cout << "\t\tSyntax error: unknown value of \"Cols\" in \"Maps\"{...}\n";
+					//skip this one
+					return false;
 				}
-				//std::cout << num << "\n";
-				this->cols = num;
-				gotCols = true;
+				else
+				{
+					this->cols = (uint16_t)tempNum;
+					gotCols = true;
+				}
 			}
 		}
 
@@ -596,48 +686,37 @@ bool Map::parseContent(std::string path, std::ifstream& file, std::streampos sta
 					temp = temp.substr(temp.find('=') + 1);
 					//std::cout << temp << "\n";
 
-					unsigned num = 0;
-					//convert to integer
-					for (int i = 0; i < temp.size(); i++)
+					if (!strParseUnsigned(temp, tempTile.texture))
 					{
-						//this will ignore any char that is not a number
-						//unsigned numbers only
-						if ((temp.at(i) >= '0') && (temp.at(i) <= '9'))
-						{
-							num *= 10;
-							num += temp.at(i) - '0';
-						}
-						else
-						{
-							std::cout << "\t\tSyntax error: unknown value of \"Tile\" in \"Content\"[" << blockCount << "]\n";
-							//skip this one
-							return false;
-						}
-					}
-
-					//is the wanted tile part of the list
-					if (num < this->tiles.size())
-					{
-						//save reference to tile list
-						//tempTile.texture = &(this->tiles.at(num));
-						tempTile.texture = num;
-						gotTile = true;
+						std::cout << "\t\tSyntax error: unknown value of \"Tile\" in \"Content\"[" << blockCount << "]\n";
+						//skip this one
+						return false;
 					}
 					else
 					{
-						tempTile.type = blnk;
-						tempTile.blocked = true;
+						//is the wanted tile part of the list
+						if (tempTile.texture < this->tiles.size())
+						{
+							//save reference to tile list
+							//tempTile.texture = &(this->tiles.at(num));
+							gotTile = true;
+						}
+						else
+						{
+							tempTile.type = blnk;
+							tempTile.blocked = true;
 
-						std::cout << "\t\tWarning: unable to find referenced texture in \"Content\"[" << blockCount << "]\n";
-						std::cout << "\t\t\t!! This may cause textures to appear on the wrong tiles !!\n";
-						std::cout << "\t\t\tCheck paths in \"Tiles\"[...]\n";
-						std::cout << "\t\t\tThis tile will be left blank\n";
-						//although this most certainly will cause the map to be displayed wrong because
-						//all tile references will be shifted, continuing the parsing process gives the map creator the
-						//chance to correct more than one mistake in one go
-						gotTile = true;
-						gotBlocked = true;
-						//return false;
+							std::cout << "\t\tWarning: unable to find referenced texture in \"Content\"[" << blockCount << "]\n";
+							std::cout << "\t\t\t!! This may cause textures to appear on the wrong tiles !!\n";
+							std::cout << "\t\t\tCheck paths in \"Tiles\"[...]\n";
+							std::cout << "\t\t\tThis tile will be left blank\n";
+							//although this most certainly will cause the map to be displayed wrong because
+							//all tile references will be shifted, continuing the parsing process gives the map creator the
+							//chance to correct more than one mistake in one go
+							gotTile = true;
+							gotBlocked = true;
+							//return false;
+						}
 					}
 				}
 				//found keyword,  may be preset by Type = blnk
